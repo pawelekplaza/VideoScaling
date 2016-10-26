@@ -100,10 +100,12 @@
     <Compile Include="Events\MyArguments.cs" />
     <Compile Include="ISwitchable.cs" />
     <Compile Include="Models\MainModel.cs" />
+    <Compile Include="Models\SecondModel.cs" />
     <Compile Include="Switcher.cs" />
     <Compile Include="Utils\Directories.cs" />
     <Compile Include="Utils\Time.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\SecondViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>

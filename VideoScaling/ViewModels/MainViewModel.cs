@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using VideoScaling.Events;
 using VideoScaling.Models;
+using VideoScaling.Views;
 
 namespace VideoScaling.ViewModels
 {
@@ -70,8 +71,7 @@ namespace VideoScaling.ViewModels
             });
             NextVideo = new RelayCommand(() =>
             {
-                //Working.DataForVM.BaseHeight = Model.SelectionRectangle.Height;
-                //Working.DataForVM.BaseWidth = Model.SelectionRectangle.Width;
+                Switcher.Switch(new SecondView(), this);
                 //ShowNextVideoWindowEvent?.Invoke(Model.SelectionRectangle, new MyArguments());
             });
         }

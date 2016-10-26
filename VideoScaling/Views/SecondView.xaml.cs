@@ -36,7 +36,7 @@ namespace VideoScaling.Views
 
         public void UtilizeState(object state)
         {
-            var tmp = state as MainView;
+            var tmp = state as MainViewModel;
             context.MainView = tmp;            
         }
 

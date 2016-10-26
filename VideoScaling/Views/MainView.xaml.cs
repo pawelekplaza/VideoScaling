@@ -36,7 +36,7 @@ namespace VideoScaling.Views
 
         public void UtilizeState(object state)
         {
-            throw new NotImplementedException();
+            var tmp = state as SecondView;
         }
 
         private void ChangeWindowSize(object sender, MyArguments e)

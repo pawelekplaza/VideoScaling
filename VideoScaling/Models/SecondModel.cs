@@ -19,12 +19,13 @@ namespace VideoScaling.Models
         public System.Windows.Point SelectionStartPoint { get; set; }
         public System.Windows.Shapes.Rectangle SelectionRectangle { get; set; }
         public System.Windows.Shapes.Rectangle BaseSelectionRectangle { get; set; }
-        public MainView MainView { get; set; }
+        public MainView MainView { get; set; }  // TODO
 
         public SecondModel()
         {
             ImageSourceList = new List<SingleFrame>();
             VideoReader = new VideoFileReader();
+            MainView = new MainView();
         }
     }
 }

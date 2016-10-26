@@ -67,25 +67,20 @@ namespace VideoScaling.ViewModels
                     NextFrameIsEnabled = false;
                 }
             });
+            PreviousVideo = new RelayCommand(() =>
+            {
+                Switcher.Switch(Model.MainView, this);
+            });
         }
 
-        public System.Windows.Shapes.Rectangle BaseSelection
-        {
-            get { return Model.BaseSelectionRectangle; }
-            set { Model.BaseSelectionRectangle = value; }
-        }
-
-        public MainView MainView
-        {
-            get { return Model.MainView; }
-            set { Model.MainView = value; }
-        }
+        public System.Windows.Shapes.Rectangle BaseSelection;
 
 
 
         public RelayCommand BrowseFile { get; set; }
         public RelayCommand SelectPreviousFrame { get; set; }
         public RelayCommand SelectNextFrame { get; set; }
+        public RelayCommand PreviousVideo { get; set; }
 
         public string FilePathTextBox
         {

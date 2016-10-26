@@ -70,7 +70,7 @@ namespace VideoScaling.ViewModels
             });
             NextVideo = new RelayCommand(() =>
             {
-                Switcher.Switch(new SecondView(), this);
+                Switcher.Switch(new SecondView(), this);                
                 //ShowNextVideoWindowEvent?.Invoke(Model.SelectionRectangle, new MyArguments());
             });
         }

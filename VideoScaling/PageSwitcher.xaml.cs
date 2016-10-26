@@ -23,8 +23,7 @@ namespace VideoScaling
         }
 
         public void Navigate(UserControl nextPage, object state)
-        {
-            this.Content = nextPage;
+        {            
             ISwitchable s = nextPage as ISwitchable;
 
             if (s != null)
@@ -32,6 +31,8 @@ namespace VideoScaling
             else
                 throw new ArgumentException("NextPage is not ISwitchable! "
                   + nextPage.Name.ToString());
+
+            this.Content = nextPage;
         }
     }
 }

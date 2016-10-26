@@ -19,8 +19,7 @@ namespace VideoScaling.ViewModels
     {
         protected MainModel Model;
 
-        public event EventHandler<MyArguments> ChangeWindowSizeEvent;
-        public event EventHandler<MyArguments> ShowNextVideoWindowEvent;
+        public event EventHandler<MyArguments> ChangeWindowSizeEvent;        
         public event EventHandler<MyArguments> DeleteRectangleSelectionEvent;
         public event EventHandler<MyArguments> EnableProceedWindowEvent;
         public event EventHandler<MyArguments> DisableProceedWindowEvent;

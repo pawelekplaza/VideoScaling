@@ -68,7 +68,7 @@ namespace VideoScaling.ViewModels
                     NextFrameIsEnabled = false;
                 }
             });
-            NextVideoWindow = new RelayCommand(() =>
+            NextVideo = new RelayCommand(() =>
             {
                 //Working.DataForVM.BaseHeight = Model.SelectionRectangle.Height;
                 //Working.DataForVM.BaseWidth = Model.SelectionRectangle.Width;
@@ -80,7 +80,7 @@ namespace VideoScaling.ViewModels
         public RelayCommand BrowseFile { get; set; }
         public RelayCommand SelectPreviousFrame { get; set; }
         public RelayCommand SelectNextFrame { get; set; }
-        public RelayCommand NextVideoWindow { get; set; }
+        public RelayCommand NextVideo { get; set; }
 
         public string FilePathTextBox
         {

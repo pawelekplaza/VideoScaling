@@ -31,6 +31,7 @@ namespace VideoScaling.Views
 
             context.ChangeWindowSizeEvent += ChangeWindowSize;
             context.RectangleMouseDownEvent += RectangleCanvasSetStartPoint;
+            context.RectangleMouseMoveEvent += RectangleCanvasMouseMove;
         }
 
         public void UtilizeState(object state)
@@ -51,8 +52,7 @@ namespace VideoScaling.Views
         private void SelectionRectangle_MouseDown(object sender, MouseButtonEventArgs e)
         {            
             context.SelectionMouseDown(e, e.GetPosition(Frame));
-        }
-
+        }    
         private void RectangleCanvasSetStartPoint(object sender, MyArguments e)
         {
             Canvas.SetLeft(sender as Rectangle, e.StartPoint.X);
@@ -60,6 +60,17 @@ namespace VideoScaling.Views
             if (RectangleCanvas.Children.Count > 1)
                 RectangleCanvas.Children.RemoveAt(1);
             RectangleCanvas.Children.Add(sender as Rectangle);
+        }
+
+
+        private void SelectionRectangle_MouseMove(object sender, MouseEventArgs e)
+        {            
+            context.SelectionMouseMove(sender, e, e.GetPosition(Frame));
+        }
+        private void RectangleCanvasMouseMove(object sender, MyArguments e)
+        {
+            Canvas.SetLeft(sender as Rectangle, e.RectangleX);
+            Canvas.SetTop(sender as Rectangle, e.RectangleY);
         }
     }
 }

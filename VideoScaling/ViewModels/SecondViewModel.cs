@@ -72,6 +72,10 @@ namespace VideoScaling.ViewModels
             {
                 ShowMainPageEvent?.Invoke(this, new MyArguments { MainPage = this.MainPage });
             });
+            OpenProceedWindow = new RelayCommand(() =>
+            {
+
+            });
         }              
 
         public MainView MainPage
@@ -90,7 +94,14 @@ namespace VideoScaling.ViewModels
         public RelayCommand SelectPreviousFrame { get; set; }
         public RelayCommand SelectNextFrame { get; set; }
         public RelayCommand PreviousVideo { get; set; }
+        public RelayCommand OpenProceedWindow { get; set; }
 
+
+        public System.Windows.Shapes.Rectangle BaseSelection
+        {
+            get { return Model.BaseSelectionRectangle; }
+            set { Model.BaseSelectionRectangle = value; }
+        }
         public string FilePathTextBox
         {
             get { return Model.FilePath; }

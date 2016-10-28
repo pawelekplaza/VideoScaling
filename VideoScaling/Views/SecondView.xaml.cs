@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 using VideoScaling.Events;
 using VideoScaling.Models;
 using VideoScaling.ViewModels;
-using VideoScaling.Working;
 
 namespace VideoScaling.Views
 {
@@ -34,6 +33,9 @@ namespace VideoScaling.Views
             Height = double.NaN;
             Width = double.NaN;
 
+            context.ChangeWindowSizeEvent += ChangeWindowSize;
+            context.RectangleMouseDownEvent += RectangleCanvasSetStartPoint;
+            context.RectangleMouseMoveEvent += RectangleCanvasMouseMove;
             context.ShowMainPageEvent += ShowMainPage;
         }
 
@@ -45,6 +47,7 @@ namespace VideoScaling.Views
 
             var tmp = state as MainView;
             context.MainPage = tmp;
+            context.BaseSelection = tmp.GetSelection();
 
             tmp.Visibility = Visibility.Hidden;
             this.Visibility = Visibility.Visible; 
@@ -63,6 +66,29 @@ namespace VideoScaling.Views
         {
             //Switcher.Switch(e.MainPage, new Keeper { KeepSecondContext = sender as SecondViewModel, KeepSecondPage = this });            
             Switcher.Switch(e.MainPage, this);
+        }
+        private void SelectionRectangle_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            context.SelectionMouseDown(e, e.GetPosition(Frame));
+        }
+        private void RectangleCanvasSetStartPoint(object sender, MyArguments e)
+        {
+            Canvas.SetLeft(sender as Rectangle, e.StartPoint.X);
+            Canvas.SetTop(sender as Rectangle, e.StartPoint.Y);
+            if (RectangleCanvas.Children.Count > 1)
+                RectangleCanvas.Children.RemoveAt(1);
+            RectangleCanvas.Children.Add(sender as Rectangle);
+        }
+
+
+        private void SelectionRectangle_MouseMove(object sender, MouseEventArgs e)
+        {
+            context.SelectionMouseMove(sender, e, e.GetPosition(Frame));
+        }
+        private void RectangleCanvasMouseMove(object sender, MyArguments e)
+        {
+            Canvas.SetLeft(sender as Rectangle, e.RectangleX);
+            Canvas.SetTop(sender as Rectangle, e.RectangleY);
         }
     }
 }

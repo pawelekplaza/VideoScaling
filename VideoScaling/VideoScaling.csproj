@@ -101,11 +101,13 @@
     <Compile Include="ISwitchable.cs" />
     <Compile Include="Models\MainModel.cs" />
     <Compile Include="Models\SecondModel.cs" />
+    <Compile Include="Models\WaitingModel.cs" />
     <Compile Include="Switcher.cs" />
     <Compile Include="Utils\Directories.cs" />
     <Compile Include="Utils\Time.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SecondViewModel.cs" />
+    <Compile Include="ViewModels\WaitingViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
@@ -118,7 +120,6 @@
     <Compile Include="Views\WaitingView.xaml.cs">
       <DependentUpon>WaitingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Working\Keeper.cs" />
     <Page Include="PageSwitcher.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -176,7 +177,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Working\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="postproc-52.dll" />
   </ItemGroup>

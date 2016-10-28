@@ -14,7 +14,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VideoScaling.Events;
 using VideoScaling.ViewModels;
-using VideoScaling.Working;
 
 namespace VideoScaling.Views
 {
@@ -36,7 +35,7 @@ namespace VideoScaling.Views
             context.ChangeWindowSizeEvent += ChangeWindowSize;
             context.RectangleMouseDownEvent += RectangleCanvasSetStartPoint;
             context.RectangleMouseMoveEvent += RectangleCanvasMouseMove;
-            context.ShowSecondPageEvent += ShowSecondPage;
+            context.ShowSecondPageEvent += ShowSecondPage;                        
         }
 
         public void UtilizeState(object state)
@@ -87,11 +86,16 @@ namespace VideoScaling.Views
         private void ShowSecondPage(object sender, MyArguments e)
         {
             if (e.SecondPage != null)
-                //Switcher.Switch(e.SecondPage, new Keeper { KeepMainContext = sender as MainViewModel, KeepMainPage = this });
+            {                
                 Switcher.Switch(e.SecondPage, this);
+            }
             else
                 //Switcher.Switch(new SecondView(), new Keeper { KeepMainContext = sender as MainViewModel, KeepMainPage = this });
                 Switcher.Switch(new SecondView(), this);
+        }
+        public Rectangle GetSelection()
+        {
+            return context.Selection;
         }
     }
 }

@@ -12,7 +12,6 @@ using System.Windows.Media.Imaging;
 using VideoScaling.Events;
 using VideoScaling.Models;
 using VideoScaling.Views;
-using VideoScaling.Working;
 
 namespace VideoScaling.ViewModels
 {
@@ -73,9 +72,9 @@ namespace VideoScaling.ViewModels
             NextVideo = new RelayCommand(() =>
             {                
                 if (SecondPage != null)
-                    ShowSecondPageEvent?.Invoke(this, new MyArguments { SecondPage = this.SecondPage });
+                    ShowSecondPageEvent?.Invoke(this, new MyArguments { SecondPage = this.SecondPage, BaseSelectionRectangle = Model.SelectionRectangle });
                 else
-                    ShowSecondPageEvent?.Invoke(this, new MyArguments());                                
+                    ShowSecondPageEvent?.Invoke(this, new MyArguments { BaseSelectionRectangle = Model.SelectionRectangle });                                
             });
         }
 
@@ -85,11 +84,6 @@ namespace VideoScaling.ViewModels
             get { return Model.SecondPage; }
             set { Model.SecondPage = value; }
         }
-        public SecondViewModel SecondContext
-        {
-            get { return Model.SecondContext; }
-            set { Model.SecondContext = value; }
-        }
         
 
         public RelayCommand BrowseFile { get; set; }
@@ -97,6 +91,10 @@ namespace VideoScaling.ViewModels
         public RelayCommand SelectNextFrame { get; set; }
         public RelayCommand NextVideo { get; set; }
 
+        public System.Windows.Shapes.Rectangle Selection
+        {
+            get { return Model.SelectionRectangle; }            
+        }
         public string FilePathTextBox
         {
             get { return Model.FilePath; }

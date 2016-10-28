@@ -38,8 +38,7 @@ namespace VideoScaling.Views
         public void UtilizeState(object state)
         {
             var tmp = state as MyArguments;            
-            context.VidInfo = tmp.VidInfo;
-            context.SecondPage = tmp.SecondPage;
+            context.VidInfo = tmp.VidInfo;            
             context.ProgressBarMaximum = context.VidInfo.VideoReader.FrameCount;
             tmp.MainPage = null;
 

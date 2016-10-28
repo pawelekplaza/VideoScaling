@@ -21,8 +21,7 @@ namespace VideoScaling.ViewModels
 
         public event EventHandler<MyArguments> ChangeWindowSizeEvent;
         public event EventHandler<MyArguments> DeleteRectangleSelectionEvent;
-        public event EventHandler<MyArguments> EnableProceedWindowEvent;
-        public event EventHandler<MyArguments> DisableProceedWindowEvent;
+        public event EventHandler<MyArguments> EnableProceedWindowEvent;        
         public event EventHandler<MyArguments> ShowMainPageEvent;
         public event EventHandler<MyArguments> ShowWaitingPageEvent;
 
@@ -86,11 +85,6 @@ namespace VideoScaling.ViewModels
             get { return Model.MainPage; }
             set { Model.MainPage = value; }
 
-        }
-        public MainViewModel MainContext
-        {
-            get { return Model.MainContext; }
-            set { Model.MainContext = value; }
         }
 
         public RelayCommand BrowseFile { get; set; }
@@ -233,8 +227,7 @@ namespace VideoScaling.ViewModels
             ImageSource = null;
             PreviousFrameIsEnabled = false;
             NextFrameIsEnabled = false;            
-            DeleteRectangleSelectionEvent?.Invoke(this, new MyArguments());
-            DisableProceedWindowEvent?.Invoke(null, new MyArguments());
+            DeleteRectangleSelectionEvent?.Invoke(null, null);            
         }
     }
 }

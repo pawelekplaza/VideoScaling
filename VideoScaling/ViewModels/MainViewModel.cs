@@ -21,8 +21,7 @@ namespace VideoScaling.ViewModels
 
         public event EventHandler<MyArguments> ChangeWindowSizeEvent;        
         public event EventHandler<MyArguments> DeleteRectangleSelectionEvent;
-        public event EventHandler<MyArguments> EnableProceedWindowEvent;
-        public event EventHandler<MyArguments> DisableProceedWindowEvent;
+        public event EventHandler<MyArguments> EnableProceedWindowEvent;        
         public event EventHandler<MyArguments> ShowSecondPageEvent;
 
         public MainViewModel()
@@ -172,7 +171,7 @@ namespace VideoScaling.ViewModels
         }
 
         public event EventHandler<MyArguments> RectangleMouseMoveEvent;
-        public void SelectionMouseMove(object sender, MouseEventArgs e, System.Windows.Point position)
+        public void SelectionMouseMove(object sender, MouseEventArgs e, Point position)
         {
             if (e.LeftButton == MouseButtonState.Released || Model.SelectionRectangle == null)
                 return;
@@ -223,8 +222,7 @@ namespace VideoScaling.ViewModels
             PreviousFrameIsEnabled = false;
             NextFrameIsEnabled = false;
             NextVideoIsEnabled = false;
-            DeleteRectangleSelectionEvent?.Invoke(this, new MyArguments());
-            DisableProceedWindowEvent?.Invoke(null, new MyArguments());
+            DeleteRectangleSelectionEvent?.Invoke(null, null);            
         }
 
     }

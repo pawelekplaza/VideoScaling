@@ -35,7 +35,8 @@ namespace VideoScaling.Views
             context.ChangeWindowSizeEvent += ChangeWindowSize;
             context.RectangleMouseDownEvent += RectangleCanvasSetStartPoint;
             context.RectangleMouseMoveEvent += RectangleCanvasMouseMove;
-            context.ShowSecondPageEvent += ShowSecondPage;                        
+            context.ShowSecondPageEvent += ShowSecondPage;
+            context.DeleteRectangleSelectionEvent += DeleteSelection;                    
         }
 
         public void UtilizeState(object state)
@@ -96,6 +97,11 @@ namespace VideoScaling.Views
         public Rectangle GetSelection()
         {
             return context.Selection;
+        }
+        private void DeleteSelection(object sender, MyArguments e)
+        {
+            if (RectangleCanvas.Children.Count > 1)
+                RectangleCanvas.Children.RemoveAt(1);
         }
     }
 }

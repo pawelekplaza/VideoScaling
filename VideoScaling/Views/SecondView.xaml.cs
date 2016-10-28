@@ -38,6 +38,7 @@ namespace VideoScaling.Views
             context.RectangleMouseMoveEvent += RectangleCanvasMouseMove;
             context.ShowMainPageEvent += ShowMainPage;
             context.ShowWaitingPageEvent += ShowWaitingPage;
+            context.DeleteRectangleSelectionEvent += DeleteSelection;
         }
 
         public void UtilizeState(object state)
@@ -95,6 +96,11 @@ namespace VideoScaling.Views
         {
             Canvas.SetLeft(sender as Rectangle, e.RectangleX);
             Canvas.SetTop(sender as Rectangle, e.RectangleY);
+        }
+        private void DeleteSelection(object sender, MyArguments e)
+        {
+            if (RectangleCanvas.Children.Count > 1)
+                RectangleCanvas.Children.RemoveAt(1);
         }
     }
 }

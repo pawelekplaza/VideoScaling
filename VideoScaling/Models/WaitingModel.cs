@@ -12,8 +12,7 @@ namespace VideoScaling.Models
     {
         public double PBMaximum { get; set; }
         public double PBValue { get; set; }
-        public VideoInfo Vid { get; set; }
-        public SecondView SecondPage { get; set; }
+        public VideoInfo Vid { get; set; }        
 
         public WaitingModel()
         {

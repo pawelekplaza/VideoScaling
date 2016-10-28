@@ -43,12 +43,6 @@ namespace VideoScaling.ViewModels
             set { Model.Vid = value; }
         }
 
-        public SecondView SecondPage
-        {
-            get { return Model.SecondPage; }
-            set { Model.SecondPage = value; }
-        }
-
         public void LoadVideo()
         {
             ProgressBarMaximum = Model.Vid.VideoReader.FrameCount;

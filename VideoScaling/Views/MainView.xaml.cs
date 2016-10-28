@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VideoScaling.Events;
 using VideoScaling.ViewModels;
+using VideoScaling.Working;
 
 namespace VideoScaling.Views
 {
@@ -29,14 +30,25 @@ namespace VideoScaling.Views
             context = new MainViewModel();
             DataContext = context;
 
+            Height = double.NaN;
+            Width = double.NaN;
+
             context.ChangeWindowSizeEvent += ChangeWindowSize;
             context.RectangleMouseDownEvent += RectangleCanvasSetStartPoint;
             context.RectangleMouseMoveEvent += RectangleCanvasMouseMove;
+            context.ShowSecondPageEvent += ShowSecondPage;
         }
 
         public void UtilizeState(object state)
         {
+            //var tmp = state as Keeper;
+            //context.SecondContext = tmp.KeepSecondContext;
+            //context.SecondPage = tmp.KeepSecondPage;
             var tmp = state as SecondView;
+            context.SecondPage = tmp;
+
+            tmp.Visibility = Visibility.Hidden;
+            this.Visibility = Visibility.Visible;
         }
 
         private void ChangeWindowSize(object sender, MyArguments e)
@@ -71,6 +83,15 @@ namespace VideoScaling.Views
         {
             Canvas.SetLeft(sender as Rectangle, e.RectangleX);
             Canvas.SetTop(sender as Rectangle, e.RectangleY);
+        }
+        private void ShowSecondPage(object sender, MyArguments e)
+        {
+            if (e.SecondPage != null)
+                //Switcher.Switch(e.SecondPage, new Keeper { KeepMainContext = sender as MainViewModel, KeepMainPage = this });
+                Switcher.Switch(e.SecondPage, this);
+            else
+                //Switcher.Switch(new SecondView(), new Keeper { KeepMainContext = sender as MainViewModel, KeepMainPage = this });
+                Switcher.Switch(new SecondView(), this);
         }
     }
 }

@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using VideoScaling.Events;
 using VideoScaling.Models;
 using VideoScaling.ViewModels;
+using VideoScaling.Working;
 
 namespace VideoScaling.Views
 {
@@ -23,7 +24,7 @@ namespace VideoScaling.Views
     /// </summary>
     public partial class SecondView : UserControl, ISwitchable
     {
-        private SecondViewModel context;
+        private SecondViewModel context;        
         public SecondView()
         {            
             InitializeComponent();
@@ -32,12 +33,21 @@ namespace VideoScaling.Views
 
             Height = double.NaN;
             Width = double.NaN;
+
+            context.ShowMainPageEvent += ShowMainPage;
         }
 
         public void UtilizeState(object state)
         {
-            var tmp = state as MainViewModel;
-            context.MainView = tmp;            
+            //var tmp = state as Keeper;
+            //context.MainContext = tmp.KeepMainContext;
+            //context.MainPage = tmp.KeepMainPage;
+
+            var tmp = state as MainView;
+            context.MainPage = tmp;
+
+            tmp.Visibility = Visibility.Hidden;
+            this.Visibility = Visibility.Visible; 
         }
 
         private void ChangeWindowSize(object sender, MyArguments e)
@@ -48,6 +58,11 @@ namespace VideoScaling.Views
 
             Height = double.NaN;
             Width = double.NaN;
+        }
+        private void ShowMainPage(object sender, MyArguments e)
+        {
+            //Switcher.Switch(e.MainPage, new Keeper { KeepSecondContext = sender as SecondViewModel, KeepSecondPage = this });            
+            Switcher.Switch(e.MainPage, this);
         }
     }
 }

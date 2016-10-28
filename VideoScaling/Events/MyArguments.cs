@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VideoScaling.Models;
+using VideoScaling.Views;
 
 namespace VideoScaling.Events
 {
@@ -23,5 +24,8 @@ namespace VideoScaling.Events
 
         public double PBValue { get; set; }
         public double PBMaximum { get; set; }
+
+        public MainView MainPage { get; set; }
+        public SecondView SecondPage { get; set; }
     }
 }

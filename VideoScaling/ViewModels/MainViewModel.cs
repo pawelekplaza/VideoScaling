@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using VideoScaling.Events;
 using VideoScaling.Models;
 using VideoScaling.Views;
+using VideoScaling.Working;
 
 namespace VideoScaling.ViewModels
 {
@@ -23,6 +24,7 @@ namespace VideoScaling.ViewModels
         public event EventHandler<MyArguments> DeleteRectangleSelectionEvent;
         public event EventHandler<MyArguments> EnableProceedWindowEvent;
         public event EventHandler<MyArguments> DisableProceedWindowEvent;
+        public event EventHandler<MyArguments> ShowSecondPageEvent;
 
         public MainViewModel()
         {
@@ -69,12 +71,26 @@ namespace VideoScaling.ViewModels
                 }
             });
             NextVideo = new RelayCommand(() =>
-            {
-                Switcher.Switch(new SecondView(), this);                
-                //ShowNextVideoWindowEvent?.Invoke(Model.SelectionRectangle, new MyArguments());
+            {                
+                if (SecondPage != null)
+                    ShowSecondPageEvent?.Invoke(this, new MyArguments { SecondPage = this.SecondPage });
+                else
+                    ShowSecondPageEvent?.Invoke(this, new MyArguments());                                
             });
         }
 
+
+        public SecondView SecondPage
+        {
+            get { return Model.SecondPage; }
+            set { Model.SecondPage = value; }
+        }
+        public SecondViewModel SecondContext
+        {
+            get { return Model.SecondContext; }
+            set { Model.SecondContext = value; }
+        }
+        
 
         public RelayCommand BrowseFile { get; set; }
         public RelayCommand SelectPreviousFrame { get; set; }

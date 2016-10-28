@@ -23,6 +23,7 @@ namespace VideoScaling.ViewModels
         public event EventHandler<MyArguments> DeleteRectangleSelectionEvent;
         public event EventHandler<MyArguments> EnableProceedWindowEvent;
         public event EventHandler<MyArguments> DisableProceedWindowEvent;
+        public event EventHandler<MyArguments> ShowMainPageEvent;
 
         public SecondViewModel()
         {
@@ -69,13 +70,21 @@ namespace VideoScaling.ViewModels
             });
             PreviousVideo = new RelayCommand(() =>
             {
-                Switcher.Switch(Model.MainView, this);
+                ShowMainPageEvent?.Invoke(this, new MyArguments { MainPage = this.MainPage });
             });
+        }              
+
+        public MainView MainPage
+        {
+            get { return Model.MainPage; }
+            set { Model.MainPage = value; }
+
         }
-
-        public System.Windows.Shapes.Rectangle BaseSelection;
-
-
+        public MainViewModel MainContext
+        {
+            get { return Model.MainContext; }
+            set { Model.MainContext = value; }
+        }
 
         public RelayCommand BrowseFile { get; set; }
         public RelayCommand SelectPreviousFrame { get; set; }

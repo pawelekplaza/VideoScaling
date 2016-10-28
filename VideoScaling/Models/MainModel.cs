@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using VideoScaling.ViewModels;
+using VideoScaling.Views;
 
 namespace VideoScaling.Models
 {
@@ -25,6 +27,8 @@ namespace VideoScaling.Models
         public System.Windows.Point SelectionStartPoint { get; set; }
         public System.Windows.Shapes.Rectangle SelectionRectangle { get; set; }
         public System.Windows.Shapes.Rectangle BaseSelectionRectangle { get; set; }
+        public SecondView SecondPage { get; set; }
+        public SecondViewModel SecondContext { get; set; }
 
         public MainModel()
         {

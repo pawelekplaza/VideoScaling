@@ -118,6 +118,7 @@
     <Compile Include="Views\WaitingView.xaml.cs">
       <DependentUpon>WaitingView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Working\Keeper.cs" />
     <Page Include="PageSwitcher.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -175,9 +176,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Working\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="postproc-52.dll" />
   </ItemGroup>

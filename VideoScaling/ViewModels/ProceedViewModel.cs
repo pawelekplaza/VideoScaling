@@ -1,0 +1,111 @@
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media.Imaging;
+using VideoScaling.Events;
+using VideoScaling.Models;
+using VideoScaling.Views;
+using VideoScaling.Working;
+
+namespace VideoScaling.ViewModels
+{
+    public class ProceedViewModel : ViewModelBase
+    {
+        private ProceedModel Model;
+
+        public ProceedViewModel()
+        {
+            Model = new ProceedModel();            
+
+            BrowseOutputDirectory = new RelayCommand(() =>
+            {
+                try
+                {
+                    OutputPathTextBox = Utils.Directories.BrowseDirectory(OutputPathTextBox);
+                    if (OutputPathTextBox != null)
+                        StartIsEnabled = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            });
+
+            Start = new RelayCommand(async () =>
+            {
+                StartIsEnabled = false;                
+                var maker = new VideoMaker();
+                maker.PBValEvent += SetPBValue;                
+                maker.VidInfo = VidInfo;
+                maker.IfOpenNewVideo = OpenNewVideoFileIsChecked;
+                maker.OutputDir = OutputPathTextBox;
+                bool result = await Task.Factory.StartNew(() => maker.MakeVideo());
+                if (result)
+                {                    
+                    Switcher.Switch(new SuccesView());
+                }
+                else
+                {
+                    MessageBox.Show("Could not create a video file.");
+                    Switcher.Switch(new MainView());
+                }
+            });
+        }
+
+        public VideoInfo VidInfo
+        {
+            get { return Model.Vid; }
+            set { Model.Vid = value; }
+        }
+
+
+        public RelayCommand BrowseOutputDirectory { get; set; }
+        public RelayCommand Start { get; set; }
+
+        private string outputPathTextBox;
+        public string OutputPathTextBox
+        {
+            get { return outputPathTextBox; }
+            set { outputPathTextBox = value; RaisePropertyChanged("OutputPathTextBox"); }
+        }
+
+        private double progressBarValue;
+        public double ProgressBarValue
+        {
+            get { return progressBarValue; }
+            set { progressBarValue = value; RaisePropertyChanged("ProgressBarValue"); }
+        }
+        private double progressBarMax;
+        public double ProgressBarMax
+        {
+            get { return progressBarMax; }
+            set { progressBarMax = value; RaisePropertyChanged("ProgressBarMax"); }
+        }
+
+        private bool openNewVideoFileIsChecked;
+        public bool OpenNewVideoFileIsChecked
+        {
+            get { return openNewVideoFileIsChecked; }
+            set { openNewVideoFileIsChecked = value; RaisePropertyChanged("OpenNewVideoFileIsChecked"); }
+        }
+
+        private bool startIsEnabled;
+        public bool StartIsEnabled
+        {
+            get { return startIsEnabled; }
+            set { startIsEnabled = value; RaisePropertyChanged("StartIsEnabled"); }
+        }
+
+
+        public void SetPBValue(object sender, MyArguments e)
+        {
+            ProgressBarValue = e.PBValue;
+        }        
+    }
+}

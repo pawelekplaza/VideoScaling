@@ -32,7 +32,7 @@
 
 
             <ProgressBar Name="ProgressBar" HorizontalAlignment="Stretch" Height="20" Width="Auto" Margin="10,10,10,10" VerticalAlignment="Bottom" Value="{Binding ProgressBarValue}" Maximum="{Binding ProgressBarMax}"/>
-            <Button x:Name="StartButton" Command="{Binding Start}" Content="Start" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10,10,10" VerticalAlignment="Bottom" Width="75"/>
+            <Button x:Name="StartButton" Command="{Binding Start}" Content="Start" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10,10,10" VerticalAlignment="Bottom" Width="75" IsEnabled="{Binding StartIsEnabled}"/>
 
 
 

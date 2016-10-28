@@ -24,6 +24,7 @@ namespace VideoScaling.ViewModels
         public event EventHandler<MyArguments> EnableProceedWindowEvent;
         public event EventHandler<MyArguments> DisableProceedWindowEvent;
         public event EventHandler<MyArguments> ShowMainPageEvent;
+        public event EventHandler<MyArguments> ShowWaitingPageEvent;
 
         public SecondViewModel()
         {
@@ -43,7 +44,7 @@ namespace VideoScaling.ViewModels
                     NextFrameIsEnabled = true;
                     if (FrameIndex > 0)
                     {
-                        ImageSource = Model.ImageSourceList[--FrameIndex].bitmapImage;
+                        ImageSource = Model.Vid.ImageSourceList[--FrameIndex].bitmapImage;
                     }
                 }
                 catch (Exception ex)
@@ -55,12 +56,12 @@ namespace VideoScaling.ViewModels
             {
                 try
                 {
-                    if (FrameIndex == Model.ImageSourceList.Count - 1)
+                    if (FrameIndex == Model.Vid.ImageSourceList.Count - 1)
                         ImageSource = ReadNextFrame();
                     else
-                        ImageSource = Model.ImageSourceList[++FrameIndex].bitmapImage;
+                        ImageSource = Model.Vid.ImageSourceList[++FrameIndex].bitmapImage;
 
-                    if (FrameIndex == Model.VideoReader.FrameCount - 1)
+                    if (FrameIndex == Model.Vid.VideoReader.FrameCount - 1)
                         NextFrameIsEnabled = false;
                 }
                 catch (Exception)
@@ -74,7 +75,9 @@ namespace VideoScaling.ViewModels
             });
             OpenProceedWindow = new RelayCommand(() =>
             {
-
+                Model.Vid.ScaleHeight = BaseSelection.Height / Model.SelectionRectangle.Height;
+                Model.Vid.ScaleWidth = BaseSelection.Width / Model.SelectionRectangle.Width;
+                ShowWaitingPageEvent?.Invoke(this, new MyArguments { VidInfo = Model.Vid, MainPage = this.MainPage });
             });
         }              
 
@@ -104,13 +107,13 @@ namespace VideoScaling.ViewModels
         }
         public string FilePathTextBox
         {
-            get { return Model.FilePath; }
-            set { Model.FilePath = value; RaisePropertyChanged("FilePathTextBox"); }
+            get { return Model.Vid.FilePath; }
+            set { Model.Vid.FilePath = value; RaisePropertyChanged("FilePathTextBox"); }
         }
         public BitmapImage ImageSource
         {
-            get { return Model.ImageSource; }
-            set { Model.ImageSource = value; RaisePropertyChanged("ImageSource"); }
+            get { return Model.Vid.ImageSource; }
+            set { Model.Vid.ImageSource = value; RaisePropertyChanged("ImageSource"); }
         }
         public string CurrentFrameTextBlock
         {
@@ -118,11 +121,11 @@ namespace VideoScaling.ViewModels
         }
         public int FrameIndex
         {
-            get { return Model.ImageSourceListIndex; }
+            get { return Model.Vid.ImageSourceListIndex; }
             set
             {
-                Model.ImageSourceListIndex = value;
-                if (Model.ImageSourceListIndex > 0)
+                Model.Vid.ImageSourceListIndex = value;
+                if (Model.Vid.ImageSourceListIndex > 0)
                     PreviousFrameIsEnabled = true;
                 else
                     PreviousFrameIsEnabled = false;
@@ -142,13 +145,22 @@ namespace VideoScaling.ViewModels
             get { return nextFrameIsEnabled; }
             set { nextFrameIsEnabled = value; RaisePropertyChanged("NextFrameIsEnabled"); }
         }
+
+        private bool proceedIsEnabled;
+        public bool ProceedIsEnabled
+        {
+            get { return proceedIsEnabled; }
+            set { proceedIsEnabled = value; RaisePropertyChanged("ProceedIsEnabled"); }
+        }
+
+
         public BitmapImage ReadNextFrame()
         {
             string framePath = Utils.Directories.TmpPath + "\\firstFrame_" + Utils.Time.GetTime() + ".bmp";
-            var firstFrame = Model.VideoReader.ReadVideoFrame();
+            var firstFrame = Model.Vid.VideoReader.ReadVideoFrame();
             firstFrame.Save(framePath);
             var result = new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, framePath)));
-            Model.ImageSourceList.Add(new SingleFrame { bitmap = firstFrame, bitmapImage = result });
+            Model.Vid.ImageSourceList.Add(new SingleFrame { bitmap = firstFrame, bitmapImage = result });
             FrameIndex++;
             RaisePropertyChanged("CurrentFrameTextBlock");
 
@@ -165,6 +177,7 @@ namespace VideoScaling.ViewModels
                 StrokeThickness = 3
             };
 
+            ProceedIsEnabled = true;
             RectangleMouseDownEvent?.Invoke(Model.SelectionRectangle, new MyArguments { StartPoint = startPoint });            
             EnableProceedWindowEvent?.Invoke(Model.SelectionRectangle, new MyArguments());
         }
@@ -199,18 +212,18 @@ namespace VideoScaling.ViewModels
             string framePath = Utils.Directories.TmpPath + "\\firstFrame_" + Utils.Time.GetTime() + ".bmp";
             if ((bool)selected)
             {
-                Model.ImageSourceList.Clear();
+                Model.Vid.ImageSourceList.Clear();
                 FrameIndex = 0;
                 RaisePropertyChanged("CurrentFrameTextBlock");
-                Model.VideoReader.Close();
+                Model.Vid.VideoReader.Close();
 
-                Model.VideoReader.Open(FilePathTextBox);
-                var firstFrame = Model.VideoReader.ReadVideoFrame();
+                Model.Vid.VideoReader.Open(FilePathTextBox);
+                var firstFrame = Model.Vid.VideoReader.ReadVideoFrame();
                 firstFrame.Save(framePath);
 
                 ChangeWindowSizeEvent?.Invoke(this, new MyArguments { WindowHeight = firstFrame.Height, WindowWidth = firstFrame.Width });
                 ImageSource = new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, framePath)));
-                Model.ImageSourceList.Add(new SingleFrame { bitmap = firstFrame, bitmapImage = ImageSource });
+                Model.Vid.ImageSourceList.Add(new SingleFrame { bitmap = firstFrame, bitmapImage = ImageSource });
                 NextFrameIsEnabled = true;
             }
         }

@@ -16,11 +16,18 @@ namespace VideoScaling.Utils
 
         public static void ClearTmpFolder()
         {
-            string tmpPath = Directory.GetCurrentDirectory() + "\\" + TmpPath;
-            string[] filesList = Directory.GetFiles(tmpPath);
+            try
+            {
+                string tmpPath = Directory.GetCurrentDirectory() + "\\" + TmpPath;
+                string[] filesList = Directory.GetFiles(tmpPath);
 
-            foreach (string s in filesList)
-                File.Delete(s);
+                foreach (string s in filesList)
+                    File.Delete(s);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VideoScaling.Models;
 using VideoScaling.Views;
+using VideoScaling.Working;
 
 namespace VideoScaling.Events
 {
@@ -27,5 +28,7 @@ namespace VideoScaling.Events
 
         public MainView MainPage { get; set; }
         public SecondView SecondPage { get; set; }
+
+        public VideoInfo VidInfo { get; set; }
     }
 }

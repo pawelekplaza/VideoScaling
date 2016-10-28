@@ -82,3 +82,5 @@ C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Debug\Views\Wa
 C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Debug\VideoScaling.g.resources
 C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Debug\VideoScaling.Properties.Resources.resources
 C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Debug\VideoScaling.csproj.GenerateResource.Cache
+C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Debug\Views\SuccesView.g.cs
+C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Debug\Views\SuccesView.baml

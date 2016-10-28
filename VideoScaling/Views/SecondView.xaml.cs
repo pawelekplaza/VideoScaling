@@ -37,6 +37,7 @@ namespace VideoScaling.Views
             context.RectangleMouseDownEvent += RectangleCanvasSetStartPoint;
             context.RectangleMouseMoveEvent += RectangleCanvasMouseMove;
             context.ShowMainPageEvent += ShowMainPage;
+            context.ShowWaitingPageEvent += ShowWaitingPage;
         }
 
         public void UtilizeState(object state)
@@ -67,6 +68,11 @@ namespace VideoScaling.Views
             //Switcher.Switch(e.MainPage, new Keeper { KeepSecondContext = sender as SecondViewModel, KeepSecondPage = this });            
             Switcher.Switch(e.MainPage, this);
         }
+        private void ShowWaitingPage(object sender, MyArguments e)
+        {
+            Switcher.Switch(new WaitingView(), new MyArguments { VidInfo = e.VidInfo, SecondPage = this });            
+        }
+
         private void SelectionRectangle_MouseDown(object sender, MouseButtonEventArgs e)
         {
             context.SelectionMouseDown(e, e.GetPosition(Frame));

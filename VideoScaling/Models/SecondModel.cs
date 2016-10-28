@@ -7,16 +7,13 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using VideoScaling.ViewModels;
 using VideoScaling.Views;
+using VideoScaling.Working;
 
 namespace VideoScaling.Models
-{
+{   
     public class SecondModel
     {
-        public string FilePath { get; set; }
-        public BitmapImage ImageSource { get; set; }
-        public List<SingleFrame> ImageSourceList { get; set; }
-        public int ImageSourceListIndex { get; set; }
-        public VideoFileReader VideoReader { get; set; }
+        public VideoInfo Vid { get; set; }
         public System.Windows.Point SelectionStartPoint { get; set; }
         public System.Windows.Shapes.Rectangle SelectionRectangle { get; set; }
         public System.Windows.Shapes.Rectangle BaseSelectionRectangle { get; set; }
@@ -25,8 +22,9 @@ namespace VideoScaling.Models
 
         public SecondModel()
         {
-            ImageSourceList = new List<SingleFrame>();
-            VideoReader = new VideoFileReader();
+            Vid = new VideoInfo();
+            Vid.ImageSourceList = new List<SingleFrame>();
+            Vid.VideoReader = new VideoFileReader();
             MainPage = new MainView();
         }
     }

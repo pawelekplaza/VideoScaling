@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="Loading . . ." Margin="0, 0, 0, 20" Width="Auto" Height="Auto" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-        <ProgressBar Width="Auto" Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20, 20, 20, 0" Grid.Row="1"/>
+        <ProgressBar Width="Auto" Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20, 20, 20, 0" Grid.Row="1" Value="{Binding ProgressBarValue}" Maximum="{Binding ProgressBarMaximum}"/>
 
     </Grid>
 </UserControl>

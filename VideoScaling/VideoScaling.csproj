@@ -100,13 +100,16 @@
     <Compile Include="Events\MyArguments.cs" />
     <Compile Include="ISwitchable.cs" />
     <Compile Include="Models\MainModel.cs" />
+    <Compile Include="Models\ProceedModel.cs" />
     <Compile Include="Models\SecondModel.cs" />
     <Compile Include="Models\WaitingModel.cs" />
     <Compile Include="Switcher.cs" />
     <Compile Include="Utils\Directories.cs" />
     <Compile Include="Utils\Time.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ProceedViewModel.cs" />
     <Compile Include="ViewModels\SecondViewModel.cs" />
+    <Compile Include="ViewModels\SuccesViewModel.cs" />
     <Compile Include="ViewModels\WaitingViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -117,9 +120,14 @@
     <Compile Include="Views\SecondView.xaml.cs">
       <DependentUpon>SecondView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SuccesView.xaml.cs">
+      <DependentUpon>SuccesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\WaitingView.xaml.cs">
       <DependentUpon>WaitingView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Working\VideoInfo.cs" />
+    <Compile Include="Working\VideoMaker.cs" />
     <Page Include="PageSwitcher.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -141,6 +149,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SecondView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SuccesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -177,9 +189,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Working\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="postproc-52.dll" />
   </ItemGroup>

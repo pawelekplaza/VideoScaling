@@ -15,9 +15,7 @@ namespace VideoScaling.ViewModels
 {
     public class WaitingViewModel : ViewModelBase
     {
-        private WaitingModel Model;
-
-        public event EventHandler<MyArguments> ShowProceedPageEvent;
+        private WaitingModel Model;        
 
         public WaitingViewModel()
         {

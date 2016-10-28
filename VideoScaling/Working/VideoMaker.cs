@@ -27,7 +27,7 @@ namespace VideoScaling.Working
                 {
                     int width = MultipleOfTwo(VidInfo.VideoReader.Width * VidInfo.ScaleWidth);
                     int height = MultipleOfTwo(VidInfo.VideoReader.Height * VidInfo.ScaleHeight);
-                    writer.Open(OutputDir + "\\" + Directories.OutputPath, width, height, VidInfo.VideoReader.FrameRate, VideoCodec.MPEG4);
+                    writer.Open(OutputDir + "\\" + Directories.OutputPath, width, height, VidInfo.VideoReader.FrameRate, VideoCodec.MPEG4, 8000000);
 
                     for (int i = 0; i < VidInfo.ImageSourceListIndex; i++) 
                     {

@@ -32,9 +32,7 @@ namespace VideoScaling.Views
             DataContext = context;
 
             Height = double.NaN;
-            Width = double.NaN;
-
-            context.ShowProceedPageEvent += ShowProceedPage;                
+            Width = double.NaN;                       
         }
 
         public void UtilizeState(object state)

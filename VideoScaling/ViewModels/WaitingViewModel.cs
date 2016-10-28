@@ -50,9 +50,7 @@ namespace VideoScaling.ViewModels
             {
                 ProgressBarValue = Model.Vid.ImageSourceListIndex;
                 ReadNextFrame();
-            }
-
-            //ShowProceedPageEvent?.Invoke(this, new MyArguments { VidInfo = this.VidInfo });
+            }           
         }
         public BitmapImage ReadNextFrame()
         {

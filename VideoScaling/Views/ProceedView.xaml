@@ -41,7 +41,7 @@
 
 
 
-        <CheckBox x:Name="OpenNewVideoCheckBox" IsChecked="{Binding OpenNewVideoFileIsChecked}" Content="Open new video file after process" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Top"/>
+        <CheckBox x:Name="OpenNewVideoCheckBox" IsChecked="{Binding OpenNewVideoFileIsChecked}" IsEnabled="{Binding OpenNewVideoFileIsEnabled}" Content="Open new video file after process" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Top"/>
 
     </Grid>
 </UserControl>

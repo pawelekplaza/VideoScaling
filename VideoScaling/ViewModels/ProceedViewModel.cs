@@ -21,7 +21,8 @@ namespace VideoScaling.ViewModels
 
         public ProceedViewModel()
         {
-            Model = new ProceedModel();            
+            Model = new ProceedModel();
+            OpenNewVideoFileIsEnabled = true;
 
             BrowseOutputDirectory = new RelayCommand(() =>
             {
@@ -39,7 +40,8 @@ namespace VideoScaling.ViewModels
 
             Start = new RelayCommand(async () =>
             {
-                StartIsEnabled = false;                
+                StartIsEnabled = false;
+                OpenNewVideoFileIsEnabled = false;
                 var maker = new VideoMaker();
                 maker.PBValEvent += SetPBValue;                
                 maker.VidInfo = VidInfo;
@@ -94,6 +96,14 @@ namespace VideoScaling.ViewModels
             get { return openNewVideoFileIsChecked; }
             set { openNewVideoFileIsChecked = value; RaisePropertyChanged("OpenNewVideoFileIsChecked"); }
         }
+
+        private bool openNewVideoFileIsEnabled;
+        public bool OpenNewVideoFileIsEnabled
+        {
+            get { return openNewVideoFileIsEnabled; }
+            set { openNewVideoFileIsEnabled = value; RaisePropertyChanged("OpenNewVideoFileIsEnabled"); }
+        }
+
 
         private bool startIsEnabled;
         public bool StartIsEnabled

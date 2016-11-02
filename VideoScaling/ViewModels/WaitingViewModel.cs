@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using VideoScaling.Events;
 using VideoScaling.Models;
@@ -45,28 +46,43 @@ namespace VideoScaling.ViewModels
 
         public void LoadVideo()
         {
-            ProgressBarMaximum = Model.Vid.VideoReader.FrameCount;
-            while (Model.Vid.ImageSourceListIndex < Model.Vid.VideoReader.FrameCount)
+            try
             {
-                ProgressBarValue = Model.Vid.ImageSourceListIndex;
-                ReadNextFrame();
-            }           
+                ProgressBarMaximum = Model.Vid.VideoReader.FrameCount;
+                while (Model.Vid.ImageSourceListIndex < Model.Vid.VideoReader.FrameCount)
+                {
+                    ProgressBarValue = Model.Vid.ImageSourceListIndex;
+                    ReadNextFrame();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }          
         }
         public BitmapImage ReadNextFrame()
         {
-            string framePath = Utils.Directories.TmpPath + "\\firstFrame_" + Utils.Time.GetTime() + ".bmp";
-            var firstFrame = Model.Vid.VideoReader.ReadVideoFrame();
-            if (firstFrame != null)
+            try
             {
-                firstFrame.Save(framePath);
-                var result = new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, framePath)));
-                Model.Vid.ImageSourceList.Add(new SingleFrame { bitmap = firstFrame, bitmapImage = result });
-                Model.Vid.ImageSourceListIndex++;
-                return result;
-            }
+                string framePath = Utils.Directories.TmpPath + "\\firstFrame_" + Utils.Time.GetTime() + ".bmp";
+                var firstFrame = Model.Vid.VideoReader.ReadVideoFrame();
+                if (firstFrame != null)
+                {
+                    firstFrame.Save(framePath);
+                    var result = new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, framePath)));
+                    Model.Vid.ImageSourceList.Add(new SingleFrame { bitmap = firstFrame, bitmapImage = result });
+                    Model.Vid.ImageSourceListIndex++;
+                    return result;
+                }
 
-            Model.Vid.ImageSourceListIndex++;
-            return null;
+                Model.Vid.ImageSourceListIndex++;
+                return null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
         }
     }
 }

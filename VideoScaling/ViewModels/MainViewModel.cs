@@ -69,11 +69,18 @@ namespace VideoScaling.ViewModels
                 }
             });
             NextVideo = new RelayCommand(() =>
-            {                
-                if (SecondPage != null)
-                    ShowSecondPageEvent?.Invoke(this, new MyArguments { SecondPage = this.SecondPage, BaseSelectionRectangle = Model.SelectionRectangle });
-                else
-                    ShowSecondPageEvent?.Invoke(this, new MyArguments { BaseSelectionRectangle = Model.SelectionRectangle });                                
+            {
+                try
+                {
+                    if (SecondPage != null)
+                        ShowSecondPageEvent?.Invoke(this, new MyArguments { SecondPage = this.SecondPage, BaseSelectionRectangle = Model.SelectionRectangle });
+                    else
+                        ShowSecondPageEvent?.Invoke(this, new MyArguments { BaseSelectionRectangle = Model.SelectionRectangle });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }                           
             });
         }
 
@@ -144,48 +151,70 @@ namespace VideoScaling.ViewModels
 
         public BitmapImage ReadNextFrame()
         {
-            string framePath = Utils.Directories.TmpPath + "\\firstFrame_" + Utils.Time.GetTime() + ".bmp";
-            var firstFrame = Model.VideoReader.ReadVideoFrame();
-            firstFrame.Save(framePath);
-            var result = new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, framePath)));
-            Model.ImageSourceList.Add(new SingleFrame { bitmap = firstFrame, bitmapImage = result });
-            FrameIndex++;
-            RaisePropertyChanged("CurrentFrameTextBlock");
+            try
+            {
+                string framePath = Utils.Directories.TmpPath + "\\firstFrame_" + Utils.Time.GetTime() + ".bmp";
+                var firstFrame = Model.VideoReader.ReadVideoFrame();
+                firstFrame.Save(framePath);
+                var result = new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, framePath)));
+                Model.ImageSourceList.Add(new SingleFrame { bitmap = firstFrame, bitmapImage = result });
+                FrameIndex++;
+                RaisePropertyChanged("CurrentFrameTextBlock");
 
-            return result;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
         }
 
         public event EventHandler<MyArguments> RectangleMouseDownEvent;
         public void SelectionMouseDown(MouseButtonEventArgs e, Point startPoint)
         {
-            Model.SelectionStartPoint = startPoint;
-            Model.SelectionRectangle = new System.Windows.Shapes.Rectangle
+            try
             {
-                Stroke = System.Windows.Media.Brushes.Yellow,
-                StrokeThickness = 3
-            };
+                Model.SelectionStartPoint = startPoint;
+                Model.SelectionRectangle = new System.Windows.Shapes.Rectangle
+                {
+                    Stroke = System.Windows.Media.Brushes.Yellow,
+                    StrokeThickness = 3
+                };
 
-            RectangleMouseDownEvent?.Invoke(Model.SelectionRectangle, new MyArguments { StartPoint = startPoint });
-            NextVideoIsEnabled = true;
-            EnableProceedWindowEvent?.Invoke(Model.SelectionRectangle, new MyArguments());
+                RectangleMouseDownEvent?.Invoke(Model.SelectionRectangle, new MyArguments { StartPoint = startPoint });
+                NextVideoIsEnabled = true;
+                EnableProceedWindowEvent?.Invoke(Model.SelectionRectangle, new MyArguments());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         public event EventHandler<MyArguments> RectangleMouseMoveEvent;
         public void SelectionMouseMove(object sender, MouseEventArgs e, Point position)
         {
-            if (e.LeftButton == MouseButtonState.Released || Model.SelectionRectangle == null)
-                return;
+            try
+            {
+                if (e.LeftButton == MouseButtonState.Released || Model.SelectionRectangle == null)
+                    return;
 
-            var x = Math.Min(position.X, Model.SelectionStartPoint.X);
-            var y = Math.Min(position.Y, Model.SelectionStartPoint.Y);
+                var x = Math.Min(position.X, Model.SelectionStartPoint.X);
+                var y = Math.Min(position.Y, Model.SelectionStartPoint.Y);
 
-            var w = Math.Max(position.X, Model.SelectionStartPoint.X) - x;
-            var h = Math.Max(position.Y, Model.SelectionStartPoint.Y) - y;
+                var w = Math.Max(position.X, Model.SelectionStartPoint.X) - x;
+                var h = Math.Max(position.Y, Model.SelectionStartPoint.Y) - y;
 
-            Model.SelectionRectangle.Width = w;
-            Model.SelectionRectangle.Height = h;
+                Model.SelectionRectangle.Width = w;
+                Model.SelectionRectangle.Height = h;
 
-            RectangleMouseMoveEvent?.Invoke(Model.SelectionRectangle, new MyArguments { RectangleX = x, RectangleY = y });
+                RectangleMouseMoveEvent?.Invoke(Model.SelectionRectangle, new MyArguments { RectangleX = x, RectangleY = y });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         public void ExitWindow(object sender, EventArgs e)

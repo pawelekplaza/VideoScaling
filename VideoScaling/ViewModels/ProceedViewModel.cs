@@ -40,22 +40,29 @@ namespace VideoScaling.ViewModels
 
             Start = new RelayCommand(async () =>
             {
-                StartIsEnabled = false;
-                OpenNewVideoFileIsEnabled = false;
-                var maker = new VideoMaker();
-                maker.PBValEvent += SetPBValue;                
-                maker.VidInfo = VidInfo;
-                maker.IfOpenNewVideo = OpenNewVideoFileIsChecked;
-                maker.OutputDir = OutputPathTextBox;
-                bool result = await Task.Factory.StartNew(() => maker.MakeVideo());
-                if (result)
-                {                    
-                    Switcher.Switch(new SuccesView());
-                }
-                else
+                try
                 {
-                    MessageBox.Show("Could not create a video file.");
-                    Switcher.Switch(new MainView());
+                    StartIsEnabled = false;
+                    OpenNewVideoFileIsEnabled = false;
+                    var maker = new VideoMaker();
+                    maker.PBValEvent += SetPBValue;
+                    maker.VidInfo = VidInfo;
+                    maker.IfOpenNewVideo = OpenNewVideoFileIsChecked;
+                    maker.OutputDir = OutputPathTextBox;
+                    bool result = await Task.Factory.StartNew(() => maker.MakeVideo());
+                    if (result)
+                    {
+                        Switcher.Switch(new SuccesView());
+                    }
+                    else
+                    {
+                        MessageBox.Show("Could not create a video file.");
+                        Switcher.Switch(new MainView());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             });
         }

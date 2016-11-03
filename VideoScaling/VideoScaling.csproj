@@ -100,6 +100,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\BackButton.xaml.cs">
+      <DependentUpon>BackButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Events\MyArguments.cs" />
     <Compile Include="ISwitchable.cs" />
     <Compile Include="Models\MainModel.cs" />
@@ -131,6 +134,10 @@
     </Compile>
     <Compile Include="Working\VideoInfo.cs" />
     <Compile Include="Working\VideoMaker.cs" />
+    <Page Include="Controls\BackButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PageSwitcher.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -194,6 +201,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Resource Include="Resources\backBtn_Mouseover.png" />
+    <Resource Include="Resources\backBtn_Disabled.png" />
+    <Resource Include="Resources\backBtn_Pressed.png" />
+    <Resource Include="Resources\backBtn.png" />
     <Resource Include="icon.ico" />
     <Resource Include="clapperboard.ico" />
     <Content Include="postproc-52.dll" />

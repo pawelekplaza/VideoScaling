@@ -3,9 +3,46 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:VideoScaling.Views"
+             xmlns:local="clr-namespace:VideoScaling"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+   
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Image Name="Normal" Source="/Resources/backBtn.png" Width="40" Height="40"/>
+                            <Image Name="Pressed" Source="/Resources/backBtn_Pressed.png" Visibility="Hidden"/>
+                            <Image Name="Disabled" Source="/Resources/backBtn_Disabled.png" Visibility="Hidden"/>
+                            <Image Name="Mouseover" Source="/Resources/backBtn_Mouseover.png" Visibility="Hidden"/>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Normal" Property="Visibility" Value="Hidden"/>
+                                <Setter TargetName="Mouseover" Property="Visibility" Value="Hidden"/>
+                                <Setter TargetName="Pressed" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Normal" Property="Visibility" Value="Hidden"/>
+                                <Setter TargetName="Disabled" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver"  Value="True">
+                                <Setter TargetName="Normal" Property="Visibility" Value="Hidden"/>
+                                <Setter TargetName="Disabled" Property="Visibility" Value="Hidden"/>
+                                <Setter TargetName="Pressed" Property="Visibility" Value="Hidden"/>
+                                <Setter TargetName="Mouseover" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>        
+    
+    
     <Grid x:Name="ProceedGrid" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="45"/>
@@ -19,7 +56,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="BrowseButton" Command="{Binding BrowseOutputDirectory}" Content="Browse..." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
+            <Button x:Name="BrowseButton" Style="{x:Null}" Command="{Binding BrowseOutputDirectory}" Content="Browse..." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
             <TextBox x:Name="PathTextBox" Text="{Binding OutputPathTextBox}" Grid.Column="1" HorizontalAlignment="Stretch" Height="20" Margin="5,10,10,10" TextWrapping="Wrap" VerticalAlignment="Top" Width="Auto" IsReadOnly="True"/>
 
         </Grid>
@@ -32,7 +69,8 @@
 
 
             <ProgressBar Name="ProgressBar" HorizontalAlignment="Stretch" Height="20" Width="Auto" Margin="10,10,10,10" VerticalAlignment="Bottom" Value="{Binding ProgressBarValue}" Maximum="{Binding ProgressBarMax}"/>
-            <Button x:Name="StartButton" Command="{Binding Start}" Content="Start" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10,10,10" VerticalAlignment="Bottom" Width="75" IsEnabled="{Binding StartIsEnabled}"/>
+            <Button x:Name="StartButton" Style="{x:Null}" Command="{Binding Start}" Content="Start" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10,10,10" VerticalAlignment="Bottom" Width="75" IsEnabled="{Binding StartIsEnabled}"/>
+            <Button x:Name="BackButton" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="40"/>
 
 
 

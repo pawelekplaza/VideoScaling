@@ -17,8 +17,14 @@ namespace VideoScaling.ViewModels
             {
                 Switcher.Switch(new MainView());
             });
+
+            Exit = new RelayCommand(() =>
+            {
+                Environment.Exit(0);
+            });
         }
 
         public RelayCommand StartAgain { get; set; }
+        public RelayCommand Exit { get; set; }
     }
 }

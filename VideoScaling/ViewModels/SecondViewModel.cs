@@ -168,13 +168,21 @@ namespace VideoScaling.ViewModels
             {
                 string framePath = Utils.Directories.TmpPath + "\\firstFrame_" + Utils.Time.GetTime() + ".bmp";
                 var firstFrame = Model.Vid.VideoReader.ReadVideoFrame();
-                firstFrame.Save(framePath);
-                var result = new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, framePath)));
-                Model.Vid.ImageSourceList.Add(new SingleFrame { bitmap = firstFrame, bitmapImage = result });
-                FrameIndex++;
-                RaisePropertyChanged("CurrentFrameTextBlock");
+                if (firstFrame != null)
+                {
+                    firstFrame.Save(framePath);
+                    var result = new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, framePath)));
+                    Model.Vid.ImageSourceList.Add(new SingleFrame { bitmap = firstFrame, bitmapImage = result });
+                    FrameIndex++;
+                    RaisePropertyChanged("CurrentFrameTextBlock");
 
-                return result;
+                    return result;
+                }
+                else
+                {
+                    NextFrameIsEnabled = false;
+                    return Model.Vid.ImageSource;
+                }
             }
             catch (Exception ex)
             {
@@ -251,6 +259,7 @@ namespace VideoScaling.ViewModels
                 var firstFrame = Model.Vid.VideoReader.ReadVideoFrame();
                 firstFrame.Save(framePath);
 
+                DeleteRectangleSelectionEvent?.Invoke(null, null);
                 ChangeWindowSizeEvent?.Invoke(this, new MyArguments { WindowHeight = firstFrame.Height, WindowWidth = firstFrame.Width });
                 ImageSource = new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, framePath)));
                 Model.Vid.ImageSourceList.Add(new SingleFrame { bitmap = firstFrame, bitmapImage = ImageSource });

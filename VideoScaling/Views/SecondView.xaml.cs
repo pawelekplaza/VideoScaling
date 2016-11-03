@@ -61,6 +61,11 @@ namespace VideoScaling.Views
             x.Height = e.WindowHeight + FirstRow.Height.Value + 63;
             x.Width = e.WindowWidth + 61;
 
+            if (x.Height < 300)
+                x.Height = 300;
+            if (x.Width < 550)
+                x.Width = 550;
+
             Height = double.NaN;
             Width = double.NaN;
         }

@@ -23,6 +23,7 @@ namespace VideoScaling.ViewModels
         {
             Model = new ProceedModel();
             OpenNewVideoFileIsEnabled = true;
+            OutputPathTextBox = "Select output directory";
 
             BrowseOutputDirectory = new RelayCommand(() =>
             {

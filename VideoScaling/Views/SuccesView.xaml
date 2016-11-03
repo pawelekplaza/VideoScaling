@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
 
-        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0" Text="File succesfully created!" FontSize="24"/>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0" Text="File succesfully created!" FontSize="24"/>
         <Button Grid.Row="1" Content="Start again" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0" FontSize="20" Command="{Binding StartAgain}"/>
         
     </Grid>

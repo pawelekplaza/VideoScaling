@@ -41,3 +41,4 @@ C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Release\VideoS
 C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Release\VideoScaling.pdb
 C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Release\Views\SuccesView.g.cs
 C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Release\Views\SuccesView.baml
+C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Release\VideoScaling.csprojResolveAssemblyReference.cache

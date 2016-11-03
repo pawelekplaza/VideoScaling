@@ -38,7 +38,7 @@ namespace VideoScaling.Working
                     }
 
                     OpenNewVideo();
-                    writer.Dispose();
+                    //writer.Dispose();
                     PBValEvent?.Invoke(this, new MyArguments { PBValue = 0 });                    
                 }
                 return true;

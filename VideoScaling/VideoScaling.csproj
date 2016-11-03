@@ -42,6 +42,9 @@
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\x86\Release\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>clapperboard.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
       <HintPath>..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
@@ -191,6 +194,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Resource Include="icon.ico" />
+    <Resource Include="clapperboard.ico" />
     <Content Include="postproc-52.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

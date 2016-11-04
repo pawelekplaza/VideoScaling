@@ -66,6 +66,11 @@ namespace VideoScaling.ViewModels
                     MessageBox.Show(ex.Message);
                 }
             });
+            BackToFirstVideo = new RelayCommand(() =>
+            {
+                Model = null;
+                Switcher.Switch(new MainView());
+            });
         }
 
         public VideoInfo VidInfo
@@ -77,6 +82,7 @@ namespace VideoScaling.ViewModels
 
         public RelayCommand BrowseOutputDirectory { get; set; }
         public RelayCommand Start { get; set; }
+        public RelayCommand BackToFirstVideo { get; set; }
 
         private string outputPathTextBox;
         public string OutputPathTextBox

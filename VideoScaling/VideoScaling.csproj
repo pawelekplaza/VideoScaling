@@ -201,8 +201,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Resource Include="Resources\backBtn_Mouseover.png" />
-    <Resource Include="Resources\backBtn_Disabled.png" />
     <Resource Include="Resources\backBtn_Pressed.png" />
     <Resource Include="Resources\backBtn.png" />
     <Resource Include="icon.ico" />

@@ -86,3 +86,4 @@ C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Debug\Views\Su
 C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Debug\Views\SuccesView.baml
 C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Debug\Controls\BackButton.g.cs
 C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Debug\Controls\BackButton.baml
+C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Debug\App.baml

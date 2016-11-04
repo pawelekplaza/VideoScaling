@@ -52,7 +52,7 @@ namespace VideoScaling.Views
             context.BaseSelection = tmp.GetSelection();
 
             tmp.Visibility = Visibility.Hidden;
-            this.Visibility = Visibility.Visible; 
+            this.Visibility = Visibility.Visible;
         }
 
         private void ChangeWindowSize(object sender, MyArguments e)

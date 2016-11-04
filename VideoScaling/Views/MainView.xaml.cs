@@ -62,6 +62,11 @@ namespace VideoScaling.Views
             if (x.Width < 550)
                 x.Width = 550;
 
+            if (x.Height > 1080)
+                x.Height = 1080;
+            if (x.Width > 1980)
+                x.Width = 1980;
+
             Height = double.NaN;
             Width = double.NaN;                        
         }

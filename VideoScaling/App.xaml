@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:VideoScaling"
              StartupUri="PageSwitcher.xaml">
     <Application.Resources>
+        
+        
         <Style TargetType="{x:Type Button}">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontFamily" Value="Verdana"/>
@@ -61,8 +63,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
-        
-        
+
+
     </Application.Resources>
 </Application>

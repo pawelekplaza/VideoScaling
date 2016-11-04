@@ -22,7 +22,7 @@
             </Grid.ColumnDefinitions>
 
             <Button x:Name="BrowseButton" Command="{Binding BrowseOutputDirectory}" Content="Browse..." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
-            <TextBox x:Name="PathTextBox" Text="{Binding OutputPathTextBox}" Grid.Column="1" HorizontalAlignment="Stretch" Height="20" Margin="5,10,10,10" TextWrapping="Wrap" VerticalAlignment="Top" Width="Auto" IsReadOnly="True"/>
+            <TextBox x:Name="PathTextBox" Text="{Binding OutputPathTextBox}" Grid.Column="1" HorizontalAlignment="Stretch" Height="20" Margin="5,10,10,10" TextWrapping="Wrap" VerticalAlignment="Top" Width="Auto" IsReadOnly="True" FontFamily="Verdana"/>
 
         </Grid>
 
@@ -40,7 +40,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Style="{StaticResource BackButtonStyle}" Command="{Binding BackToFirstVideo}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="40"/>
-                <TextBlock Grid.Column="1" Text="Back to first video" Margin="0,20,0,0" FontSize="15"/>
+                <TextBlock Grid.Column="1" Text="Back to first view" Margin="0,20,0,0" FontSize="15" FontFamily="Verdana"/>
             </Grid>
             
             
@@ -52,14 +52,14 @@
                 </Grid.ColumnDefinitions>
 
                 <ProgressBar Name="ProgressBar" HorizontalAlignment="Stretch" Height="20" Width="Auto" Margin="10,10,10,10" VerticalAlignment="Bottom" Foreground="Black" Value="{Binding ProgressBarValue}" Maximum="{Binding ProgressBarMax}"/>
-                <Button x:Name="StartButton" Command="{Binding Start}" Content="Start" Grid.Column="1" HorizontalAlignment="Right" Margin="0,10,10,10" VerticalAlignment="Bottom" Width="75" IsEnabled="{Binding StartIsEnabled}"/>
+                <Button x:Name="StartButton" Command="{Binding Start}" Content="Start" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" IsEnabled="{Binding StartIsEnabled}"/>
             </Grid>
         </Grid>
 
 
 
 
-        <CheckBox x:Name="OpenNewVideoCheckBox" IsChecked="{Binding OpenNewVideoFileIsChecked}" IsEnabled="{Binding OpenNewVideoFileIsEnabled}" Content="Open new video file after process" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Top"/>
+        <CheckBox x:Name="OpenNewVideoCheckBox" IsChecked="{Binding OpenNewVideoFileIsChecked}" IsEnabled="{Binding OpenNewVideoFileIsEnabled}" Content="Open new video file after process" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Top" FontFamily="Verdana"/>
 
     </Grid>
 </UserControl>

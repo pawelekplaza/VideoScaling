@@ -44,3 +44,4 @@ C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Release\Views\
 C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Release\VideoScaling.csprojResolveAssemblyReference.cache
 C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Release\Controls\BackButton.baml
 C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Release\Controls\BackButton.g.cs
+C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Release\App.baml

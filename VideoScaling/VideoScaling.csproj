@@ -201,8 +201,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Resource Include="Resources\backBtn_Pressed.png" />
     <Resource Include="Resources\backBtn.png" />
+    <Resource Include="Resources\backBtn_MouseOver.png" />
     <Resource Include="icon.ico" />
     <Resource Include="clapperboard.ico" />
     <Content Include="postproc-52.dll" />

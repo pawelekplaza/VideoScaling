@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using VideoScaling.Events;
 using VideoScaling.Models;
+using VideoScaling.Utils;
 using VideoScaling.Views;
 
 namespace VideoScaling.ViewModels
@@ -34,7 +35,11 @@ namespace VideoScaling.ViewModels
             BrowseFile = new RelayCommand(() =>
             {
                 try { BrowseFileTryContent(); }
-                catch (Exception ex) { BrowseFileCatchContent(ex); }
+                catch (Exception ex)
+                {
+                    Logger.Log(string.Concat(ex.Message, "\r\n", ex.StackTrace));
+                    BrowseFileCatchContent(ex);
+                }
             });
             SelectPreviousFrame = new RelayCommand(() =>
             {
@@ -48,6 +53,7 @@ namespace VideoScaling.ViewModels
                 }
                 catch (Exception ex)
                 {
+                    Logger.Log(string.Concat(ex.Message, "\r\n", ex.StackTrace));
                     MessageBox.Show(ex.Message);
                 }
             });
@@ -63,8 +69,9 @@ namespace VideoScaling.ViewModels
                     if (FrameIndex == Model.VideoReader.FrameCount - 1)
                         NextFrameIsEnabled = false;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Logger.Log(string.Concat(ex.Message, "\r\n", ex.StackTrace));
                     NextFrameIsEnabled = false;
                 }
             });
@@ -79,6 +86,7 @@ namespace VideoScaling.ViewModels
                 }
                 catch (Exception ex)
                 {
+                    Logger.Log(string.Concat(ex.Message, "\r\n", ex.StackTrace));
                     MessageBox.Show(ex.Message);
                 }                           
             });
@@ -173,6 +181,7 @@ namespace VideoScaling.ViewModels
             }
             catch (Exception ex)
             {
+                Logger.Log(string.Concat(ex.Message, "\r\n", ex.StackTrace));
                 MessageBox.Show(ex.Message);
                 return null;
             }
@@ -196,6 +205,7 @@ namespace VideoScaling.ViewModels
             }
             catch (Exception ex)
             {
+                Logger.Log(string.Concat(ex.Message, "\r\n", ex.StackTrace));
                 MessageBox.Show(ex.Message);
             }
         }
@@ -221,6 +231,7 @@ namespace VideoScaling.ViewModels
             }
             catch (Exception ex)
             {
+                Logger.Log(string.Concat(ex.Message, "\r\n", ex.StackTrace));
                 MessageBox.Show(ex.Message);
             }
         }

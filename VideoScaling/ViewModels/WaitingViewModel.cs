@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using VideoScaling.Events;
 using VideoScaling.Models;
+using VideoScaling.Utils;
 using VideoScaling.Views;
 using VideoScaling.Working;
 
@@ -80,6 +81,7 @@ namespace VideoScaling.ViewModels
             }
             catch (Exception ex)
             {
+                Logger.Log(string.Concat(ex.Message, "\r\n", ex.StackTrace));
                 MessageBox.Show(ex.Message);
                 return null;
             }

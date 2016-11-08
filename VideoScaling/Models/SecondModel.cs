@@ -1,16 +1,10 @@
 ﻿using AForge.Video.FFMPEG;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
-using VideoScaling.ViewModels;
 using VideoScaling.Views;
 using VideoScaling.Working;
 
 namespace VideoScaling.Models
-{   
+{
     public class SecondModel
     {
         public VideoInfo Vid { get; set; }

@@ -1,16 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using VideoScaling.Events;
 using VideoScaling.Models;
 using VideoScaling.Utils;
-using VideoScaling.Views;
 using VideoScaling.Working;
 
 namespace VideoScaling.ViewModels
@@ -65,7 +59,7 @@ namespace VideoScaling.ViewModels
         {
             try
             {
-                string framePath = Utils.Directories.TmpPath + "\\firstFrame_" + Utils.Time.GetTime() + ".bmp";
+                string framePath = Directories.TmpPath + "\\firstFrame_" + Time.GetTime() + ".bmp";
                 var firstFrame = Model.Vid.VideoReader.ReadVideoFrame();
                 if (firstFrame != null)
                 {

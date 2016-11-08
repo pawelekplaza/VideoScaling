@@ -1,0 +1,5 @@
+\VideoScaling\bin\Debug\tmp
+\VideoScaling\bin\Release\tmp
+VideoScaling/bin/Debug/tmp/
+VideoScaling/bin/Release/tmp/
+.gitignore

@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using VideoScaling.Events;
 using VideoScaling.Utils;
 
@@ -10,35 +11,66 @@ namespace VideoScaling.Working
 {
     public class VideoMaker
     {
-        public event EventHandler<MyArguments> PBValEvent;        
+        public event EventHandler<ProgressBarArguments> PBValEvent;
+        public event EventHandler<ProgressBarArguments> CurrentTimeProceededEvent;   
         public bool IfOpenNewVideo { get; set; }
+        public bool PBIndeterminate { get; set; }
         public VideoInfo VidInfo { get; set; }
         public string OutputDir { get; set; }
         public string FileTime { get; set; }
+        private VideoFileReader Reader { get; set; }
+
+        public VideoMaker()
+        {
+            Reader = new VideoFileReader();            
+       }
 
         public bool MakeVideo()
         {
             try
             {
-                using (VideoFileWriter writer = new VideoFileWriter())
-                {
+                Reader.Open(VidInfo.FilePath);
+                VidInfo.ImageSourceListIndex = 0;
+
+                using (VideoFileWriter writer = new VideoFileWriter())                
+                {                    
                     int width = MultipleOfTwo(VidInfo.VideoReader.Width * VidInfo.ScaleWidth);
                     int height = MultipleOfTwo(VidInfo.VideoReader.Height * VidInfo.ScaleHeight);
-                    FileTime = Time.GetTime();
-                    writer.Open(OutputDir + "\\" + Directories.OutputPath + FileTime + ".mp4", width, height, VidInfo.VideoReader.FrameRate, VideoCodec.MPEG4, 8000000);                    
 
-                    for (int i = 0; i < VidInfo.ImageSourceListIndex; i++) 
+                    FileTime = Time.GetTime();
+                    writer.Open(OutputDir + "\\" + Directories.OutputPath + FileTime + ".mp4", width, height, VidInfo.VideoReader.FrameRate, VideoCodec.MPEG4, 8000000);
+                    long seconds = 0;
+                    var Size = new System.Drawing.Size(writer.Width, writer.Height);
+
+                    for (int i = 0; i <= VidInfo.ImageSourceListIndex; i++)
                     {
-                        Bitmap newFrame = new Bitmap(VidInfo.ImageSourceList[i].bitmap, new System.Drawing.Size(writer.Width, writer.Height));
-                        writer.WriteVideoFrame(newFrame);
-                        newFrame.Dispose();
-                        VidInfo.ImageSourceList[i].bitmap.Dispose();
-                        PBValEvent?.Invoke(this, new MyArguments { PBValue = i });
+                        Bitmap newFr = Reader.ReadVideoFrame();                        
+                        if (newFr != null)
+                        {                            
+                            VidInfo.ImageSourceListIndex++;
+                            Bitmap newFrame = new Bitmap(newFr, Size);
+                            writer.WriteVideoFrame(newFrame);
+                            newFrame.Dispose();
+                            newFr.Dispose();
+                            if (!PBIndeterminate && i % 100 == 0)
+                                PBValEvent?.Invoke(this, new ProgressBarArguments { PBValue = i });
+
+
+                            var tmpSec = seconds;
+                            seconds = i / VidInfo.VideoReader.FrameRate;
+                            long hProc = seconds / 3600;
+                            seconds -= 3600 * hProc;
+                            long mProc = seconds / 60;
+                            seconds -= 60 * mProc;
+
+                            if (tmpSec != seconds)
+                                CurrentTimeProceededEvent?.Invoke(this, new ProgressBarArguments { TimeProceeded = hProc.ToString() + ":" + mProc.ToString() + ":" + seconds.ToString() });
+                        }
                     }
 
                     OpenNewVideo();
                     writer.Dispose();
-                    PBValEvent?.Invoke(this, new MyArguments { PBValue = 0 });                    
+                    PBValEvent?.Invoke(this, new ProgressBarArguments { PBValue = 0 });
                 }
                                 
                 return true;

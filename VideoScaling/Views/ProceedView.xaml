@@ -51,8 +51,10 @@
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
 
-                <ProgressBar Name="ProgressBar" HorizontalAlignment="Stretch" Height="20" Width="Auto" Margin="10,10,10,10" VerticalAlignment="Bottom" Foreground="Black" Value="{Binding ProgressBarValue}" Maximum="{Binding ProgressBarMax}"/>
+                <ProgressBar Name="ProgressBar" HorizontalAlignment="Stretch" Height="20" Width="Auto" Margin="10,10,10,10" VerticalAlignment="Bottom" Foreground="Black" Value="{Binding ProgressBarValue}" Maximum="{Binding ProgressBarMax}" IsIndeterminate="{Binding ProgressBarIndeterminate}"/>
+                <TextBlock x:Name="CurrentTimeProceededTextBlock" Text="{Binding CurrentTimeProcedeed}" Margin="0,0,0,30" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="180" Height="20"/>
                 <Button x:Name="StartButton" Command="{Binding Start}" Content="Start" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" IsEnabled="{Binding StartIsEnabled}"/>
+                
             </Grid>
         </Grid>
 

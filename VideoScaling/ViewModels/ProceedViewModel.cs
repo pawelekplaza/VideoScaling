@@ -44,9 +44,14 @@ namespace VideoScaling.ViewModels
                     OpenNewVideoFileIsEnabled = false;
                     var maker = new VideoMaker();
                     maker.PBValEvent += SetPBValue;
+                    maker.CurrentTimeProceededEvent += SetCurrTimeProc;
                     maker.VidInfo = VidInfo;
                     maker.IfOpenNewVideo = OpenNewVideoFileIsChecked;
                     maker.OutputDir = OutputPathTextBox;
+                    ProgressBarMax = Model.Vid.VideoReader.FrameCount;
+                    if (ProgressBarMax == 0)
+                        ProgressBarIndeterminate = true;
+                    maker.PBIndeterminate = ProgressBarIndeterminate;
                     bool result = await Task.Factory.StartNew(() => maker.MakeVideo());
                     if (result)
                     {
@@ -102,6 +107,21 @@ namespace VideoScaling.ViewModels
             set { progressBarMax = value; RaisePropertyChanged("ProgressBarMax"); }
         }
 
+        private bool progressBarIndeterminate;
+        public bool ProgressBarIndeterminate
+        {
+            get { return progressBarIndeterminate; }
+            set { progressBarIndeterminate = value; RaisePropertyChanged("ProgressBarIndeterminate"); }
+        }
+
+        private string currentTimeProcedeed;
+        public string CurrentTimeProcedeed
+        {
+            get { return currentTimeProcedeed; }
+            set { currentTimeProcedeed = "Current time proceeded: " + value; RaisePropertyChanged("CurrentTimeProcedeed"); }
+        }
+
+
         private bool openNewVideoFileIsChecked;
         public bool OpenNewVideoFileIsChecked
         {
@@ -125,9 +145,14 @@ namespace VideoScaling.ViewModels
         }
 
 
-        public void SetPBValue(object sender, MyArguments e)
+        public void SetPBValue(object sender, ProgressBarArguments e)
         {
             ProgressBarValue = e.PBValue;
-        }        
+        }
+
+        public void SetCurrTimeProc(object sender, ProgressBarArguments e)
+        {
+            CurrentTimeProcedeed = e.TimeProceeded;
+        }                
     }
 }

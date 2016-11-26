@@ -14,6 +14,7 @@ namespace VideoScaling.Working
         public bool IfOpenNewVideo { get; set; }
         public VideoInfo VidInfo { get; set; }
         public string OutputDir { get; set; }
+        public string FileTime { get; set; }
 
         public bool MakeVideo()
         {
@@ -23,20 +24,23 @@ namespace VideoScaling.Working
                 {
                     int width = MultipleOfTwo(VidInfo.VideoReader.Width * VidInfo.ScaleWidth);
                     int height = MultipleOfTwo(VidInfo.VideoReader.Height * VidInfo.ScaleHeight);
-                    writer.Open(OutputDir + "\\" + Directories.OutputPath, width, height, VidInfo.VideoReader.FrameRate, VideoCodec.MPEG4, 8000000);
+                    FileTime = Time.GetTime();
+                    writer.Open(OutputDir + "\\" + Directories.OutputPath + FileTime + ".mp4", width, height, VidInfo.VideoReader.FrameRate, VideoCodec.MPEG4, 8000000);                    
 
                     for (int i = 0; i < VidInfo.ImageSourceListIndex; i++) 
                     {
-                        Bitmap newFrame = new Bitmap(VidInfo.ImageSourceList[i].bitmap, new System.Drawing.Size(writer.Width, writer.Height));                        
+                        Bitmap newFrame = new Bitmap(VidInfo.ImageSourceList[i].bitmap, new System.Drawing.Size(writer.Width, writer.Height));
                         writer.WriteVideoFrame(newFrame);
-                        VidInfo.ImageSourceList[i].bitmap.Dispose();                                      
+                        newFrame.Dispose();
+                        VidInfo.ImageSourceList[i].bitmap.Dispose();
                         PBValEvent?.Invoke(this, new MyArguments { PBValue = i });
                     }
 
                     OpenNewVideo();
-                    //writer.Dispose();
+                    writer.Dispose();
                     PBValEvent?.Invoke(this, new MyArguments { PBValue = 0 });                    
                 }
+                                
                 return true;
             }
             catch (Exception ex)
@@ -59,7 +63,7 @@ namespace VideoScaling.Working
             {
                 try
                 {
-                    Process.Start(OutputDir + "\\" + Directories.OutputPath);
+                    Process.Start(OutputDir + "\\" + Directories.OutputPath + FileTime + ".mp4");
                 }
                 catch (Exception ex)
                 {

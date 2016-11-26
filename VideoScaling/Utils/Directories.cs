@@ -7,7 +7,7 @@ namespace VideoScaling.Utils
     public static class Directories
     {
         public static string TmpPath { get; } = "tmp";
-        public static string OutputPath { get; } = "NewVideo.mp4";
+        public static string OutputPath { get; } = "NewVideo";
 
 
         public static void ClearTmpFolder()

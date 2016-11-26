@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\obj\Debug\
+C:\Users\Paweł\Desktop\Repo\trunk\VideoScaling\obj\Debug\
 VideoScaling
 none
 false
 DEBUG;TRACE
-C:\Users\Praktykant\Desktop\GitRepo\VideoScaling\VideoScaling\App.xaml
+C:\Users\Paweł\Desktop\Repo\trunk\VideoScaling\App.xaml
 64538154
 12062794490
-31-1580185768
-74-602061591
+311191137868
+74-2031234187
 PageSwitcher.xaml;Views\MainView.xaml;Views\ProceedView.xaml;Views\SecondView.xaml;Views\SuccesView.xaml;Views\WaitingView.xaml;
 
-False
+True
 

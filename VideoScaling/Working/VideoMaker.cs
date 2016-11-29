@@ -87,17 +87,24 @@ namespace VideoScaling.Working
                                 if (VidInfo.SecondSelection.StartPoint.X + w > writer.Width)
                                 {
                                     if (VidInfo.SecondSelection.StartPoint.Y + h > writer.Height)
-                                    {
-                                        scaledBitmap = cropImage(newFr, )
-                                    }
+                                        scaledBitmap = cropImage(newFr, new System.Windows.Point(writer.Width - w, writer.Height - h), w, h);
+                                    else
+                                        scaledBitmap = cropImage(newFr, new System.Windows.Point(writer.Width - w, VidInfo.SecondCenter.Y - (h / 2)), w, h);
+                                }
+                                else if (VidInfo.SecondSelection.StartPoint.Y + h > writer.Height)
+                                    scaledBitmap = cropImage(newFr, new System.Windows.Point(VidInfo.SecondCenter.X - (w / 2), writer.Height - h), w, h);
+                                else
+                                    scaledBitmap = cropImage(newFr, new System.Windows.Point(VidInfo.SecondCenter.X - (w / 2), VidInfo.SecondCenter.Y - (h / 2)), w, h);
 
-                                }                                                
-                                scaledBitmap = cropImage(newFr, VidInfo.SecondSelection.StartPoint, w, h);
-                                VidInfo.ImageSourceListIndex++;
-                                //Bitmap newFrame = new Bitmap(newFr, Size);
-                                writer.WriteVideoFrame(scaledBitmap);
+
+
+                                Bitmap newFrame = new Bitmap(scaledBitmap, Size);
+                                //Bitmap newFrame = new Bitmap(
+                                VidInfo.ImageSourceListIndex++;                                
+                                writer.WriteVideoFrame(newFrame);
                                 scaledBitmap.Dispose();
                                 newFr.Dispose();
+                                newFrame.Dispose();
                                 if (!PBIndeterminate && i % 100 == 0)
                                     PBValEvent?.Invoke(this, new ProgressBarArguments { PBValue = i });
 

@@ -12,6 +12,27 @@ namespace VideoScaling.Models
         public Bitmap bitmap;
     }
 
+    public class Selection
+    {
+        public System.Windows.Point StartPoint { get; set; }
+        public System.Windows.Shapes.Rectangle Rect { get; set; }
+
+        public Selection()
+        {
+            StartPoint = new System.Windows.Point();
+            Rect = new System.Windows.Shapes.Rectangle();
+        }
+
+        public System.Windows.Point GetCenter()
+        {
+            System.Windows.Point result = new System.Windows.Point();
+            result.X = StartPoint.X + (Rect.ActualWidth / 2);
+            result.Y = StartPoint.Y + (Rect.ActualHeight / 2);
+
+            return result;
+        }
+    }
+
     public class MainModel
     {
         public string FilePath { get; set; }
@@ -19,8 +40,9 @@ namespace VideoScaling.Models
         public List<SingleFrame> ImageSourceList { get; set; }
         public int ImageSourceListIndex { get; set; }
         public VideoFileReader VideoReader { get; set; }
-        public System.Windows.Point SelectionStartPoint { get; set; }
-        public System.Windows.Shapes.Rectangle SelectionRectangle { get; set; }        
+        //public System.Windows.Point SelectionStartPoint { get; set; }
+        //public System.Windows.Shapes.Rectangle SelectionRectangle { get; set; }        
+        public Selection SelectionRectangle { get; set; }
         public SecondView SecondPage { get; set; }        
 
         public MainModel()

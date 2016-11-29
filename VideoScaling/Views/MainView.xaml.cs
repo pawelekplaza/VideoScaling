@@ -77,11 +77,13 @@ namespace VideoScaling.Views
         }    
         private void RectangleCanvasSetStartPoint(object sender, MyArguments e)
         {
-            Canvas.SetLeft(sender as Rectangle, e.StartPoint.X);
-            Canvas.SetTop(sender as Rectangle, e.StartPoint.Y);
+            Models.Selection arg = sender as Models.Selection;
+            Rectangle rect = arg.Rect;
+            Canvas.SetLeft(rect, e.StartPoint.X);
+            Canvas.SetTop(rect, e.StartPoint.Y);
             if (RectangleCanvas.Children.Count > 1)
                 RectangleCanvas.Children.RemoveAt(1);
-            RectangleCanvas.Children.Add(sender as Rectangle);
+            RectangleCanvas.Children.Add(rect);
         }
 
 
@@ -91,8 +93,10 @@ namespace VideoScaling.Views
         }
         private void RectangleCanvasMouseMove(object sender, MyArguments e)
         {
-            Canvas.SetLeft(sender as Rectangle, e.RectangleX);
-            Canvas.SetTop(sender as Rectangle, e.RectangleY);
+            Models.Selection arg = sender as Models.Selection;
+            Rectangle rect = arg.Rect;
+            Canvas.SetLeft(rect, e.RectangleX);
+            Canvas.SetTop(rect, e.RectangleY);
         }
         private void ShowSecondPage(object sender, MyArguments e)
         {
@@ -104,7 +108,7 @@ namespace VideoScaling.Views
                 //Switcher.Switch(new SecondView(), new Keeper { KeepMainContext = sender as MainViewModel, KeepMainPage = this });
                 Switcher.Switch(new SecondView(), this);
         }
-        public Rectangle GetSelection()
+        public Models.Selection GetSelection()
         {
             return context.Selection;
         }

@@ -10,8 +10,8 @@ namespace VideoScaling.Events
         public double WindowWidth { get; set; }
         public System.Windows.Point StartPoint { get; set; }
         public double RectangleX { get; set; }
-        public double RectangleY { get; set; }
-        public System.Windows.Shapes.Rectangle BaseSelectionRectangle { get; set; }                                            
+        public double RectangleY { get; set; }        
+        public Models.Selection BaseSelectionRectangle { get; set; }
         public MainView MainPage { get; set; }
         public SecondView SecondPage { get; set; }
         public VideoInfo VidInfo { get; set; }        

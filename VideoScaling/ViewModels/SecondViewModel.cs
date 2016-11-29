@@ -25,6 +25,7 @@ namespace VideoScaling.ViewModels
         public SecondViewModel()
         {
             Model = new SecondModel();
+            Model.SelectionRectangle = new Models.Selection();
             PreviousFrameIsEnabled = false;
             NextFrameIsEnabled = false;            
 
@@ -86,8 +87,10 @@ namespace VideoScaling.ViewModels
             {
                 try
                 {
-                    Model.Vid.ScaleHeight = BaseSelection.Height / Model.SelectionRectangle.Height;
-                    Model.Vid.ScaleWidth = BaseSelection.Width / Model.SelectionRectangle.Width;
+                    Model.Vid.ScaleHeight = BaseSelection.Rect.Height / Model.SelectionRectangle.Rect.Height;
+                    Model.Vid.ScaleWidth = BaseSelection.Rect.Width / Model.SelectionRectangle.Rect.Width;
+                    Model.Vid.baseCenter = BaseSelection.GetCenter();
+                    Model.Vid.secondCenter = Model.SelectionRectangle.GetCenter();                    
                     ShowWaitingPageEvent?.Invoke(this, new MyArguments { VidInfo = Model.Vid, MainPage = this.MainPage });
                 }
                 catch (Exception ex)
@@ -112,7 +115,7 @@ namespace VideoScaling.ViewModels
         public RelayCommand OpenProceedWindow { get; set; }
 
 
-        public System.Windows.Shapes.Rectangle BaseSelection
+        public Models.Selection BaseSelection
         {
             get { return Model.BaseSelectionRectangle; }
             set { Model.BaseSelectionRectangle = value; }
@@ -201,8 +204,8 @@ namespace VideoScaling.ViewModels
         {
             try
             {
-                Model.SelectionStartPoint = startPoint;
-                Model.SelectionRectangle = new System.Windows.Shapes.Rectangle
+                Model.SelectionRectangle.StartPoint = startPoint;
+                Model.SelectionRectangle.Rect = new System.Windows.Shapes.Rectangle
                 {
                     Stroke = System.Windows.Media.Brushes.Yellow,
                     StrokeThickness = 3
@@ -227,14 +230,14 @@ namespace VideoScaling.ViewModels
                 if (e.LeftButton == MouseButtonState.Released || Model.SelectionRectangle == null)
                     return;
 
-                var x = Math.Min(position.X, Model.SelectionStartPoint.X);
-                var y = Math.Min(position.Y, Model.SelectionStartPoint.Y);
+                var x = Math.Min(position.X, Model.SelectionRectangle.StartPoint.X);
+                var y = Math.Min(position.Y, Model.SelectionRectangle.StartPoint.Y);
 
-                var w = Math.Max(position.X, Model.SelectionStartPoint.X) - x;
-                var h = Math.Max(position.Y, Model.SelectionStartPoint.Y) - y;
+                var w = Math.Max(position.X, Model.SelectionRectangle.StartPoint.X) - x;
+                var h = Math.Max(position.Y, Model.SelectionRectangle.StartPoint.Y) - y;
 
-                Model.SelectionRectangle.Width = w;
-                Model.SelectionRectangle.Height = h;
+                Model.SelectionRectangle.Rect.Width = w;
+                Model.SelectionRectangle.Rect.Height = h;
 
                 RectangleMouseMoveEvent?.Invoke(Model.SelectionRectangle, new MyArguments { RectangleX = x, RectangleY = y });
             }

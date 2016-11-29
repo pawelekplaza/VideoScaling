@@ -24,6 +24,7 @@ namespace VideoScaling.ViewModels
         public MainViewModel()
         {
             Model = new MainModel();
+            Model.SelectionRectangle = new Selection();
             PreviousFrameIsEnabled = false;
             NextFrameIsEnabled = false;
             NextVideoIsEnabled = false;
@@ -101,7 +102,7 @@ namespace VideoScaling.ViewModels
         public RelayCommand SelectNextFrame { get; set; }
         public RelayCommand NextVideo { get; set; }
 
-        public System.Windows.Shapes.Rectangle Selection
+        public Selection Selection
         {
             get { return Model.SelectionRectangle; }            
         }
@@ -188,8 +189,8 @@ namespace VideoScaling.ViewModels
         {
             try
             {
-                Model.SelectionStartPoint = startPoint;
-                Model.SelectionRectangle = new System.Windows.Shapes.Rectangle
+                Model.SelectionRectangle.StartPoint = startPoint;                
+                Model.SelectionRectangle.Rect = new System.Windows.Shapes.Rectangle
                 {
                     Stroke = System.Windows.Media.Brushes.Yellow,
                     StrokeThickness = 3
@@ -214,14 +215,14 @@ namespace VideoScaling.ViewModels
                 if (e.LeftButton == MouseButtonState.Released || Model.SelectionRectangle == null)
                     return;
 
-                var x = Math.Min(position.X, Model.SelectionStartPoint.X);
-                var y = Math.Min(position.Y, Model.SelectionStartPoint.Y);
+                var x = Math.Min(position.X, Model.SelectionRectangle.StartPoint.X);
+                var y = Math.Min(position.Y, Model.SelectionRectangle.StartPoint.Y);
 
-                var w = Math.Max(position.X, Model.SelectionStartPoint.X) - x;
-                var h = Math.Max(position.Y, Model.SelectionStartPoint.Y) - y;
+                var w = Math.Max(position.X, Model.SelectionRectangle.StartPoint.X) - x;
+                var h = Math.Max(position.Y, Model.SelectionRectangle.StartPoint.Y) - y;
 
-                Model.SelectionRectangle.Width = w;
-                Model.SelectionRectangle.Height = h;
+                Model.SelectionRectangle.Rect.Width = w;
+                Model.SelectionRectangle.Rect.Height = h;
 
                 RectangleMouseMoveEvent?.Invoke(Model.SelectionRectangle, new MyArguments { RectangleX = x, RectangleY = y });
             }

@@ -3,7 +3,6 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using VideoScaling.Events;
 using VideoScaling.Utils;
 
@@ -36,35 +35,71 @@ namespace VideoScaling.Working
                 {                    
                     int width = MultipleOfTwo(VidInfo.VideoReader.Width * VidInfo.ScaleWidth);
                     int height = MultipleOfTwo(VidInfo.VideoReader.Height * VidInfo.ScaleHeight);
-
                     FileTime = Time.GetTime();
-                    writer.Open(OutputDir + "\\" + Directories.OutputPath + FileTime + ".mp4", width, height, VidInfo.VideoReader.FrameRate, VideoCodec.MPEG4, 8000000);
-                    long seconds = 0;
-                    var Size = new System.Drawing.Size(writer.Width, writer.Height);
 
-                    for (int i = 0; i <= VidInfo.ImageSourceListIndex; i++)
+                    if (width <= VidInfo.VideoReader.Width && height <= VidInfo.VideoReader.Height)
+                    {                        
+                        writer.Open(OutputDir + "\\" + Directories.OutputPath + FileTime + ".mp4", width, height, VidInfo.VideoReader.FrameRate, VideoCodec.MPEG4, 8000000);
+                        long seconds = 0;
+                        var Size = new System.Drawing.Size(writer.Width, writer.Height);
+
+                        for (int i = 0; i <= VidInfo.ImageSourceListIndex; i++)
+                        {
+                            Bitmap newFr = Reader.ReadVideoFrame();
+                            if (newFr != null)
+                            {
+                                VidInfo.ImageSourceListIndex++;
+                                Bitmap newFrame = new Bitmap(newFr, Size);
+                                writer.WriteVideoFrame(newFrame);
+                                newFrame.Dispose();
+                                newFr.Dispose();
+                                if (!PBIndeterminate && i % 100 == 0)
+                                    PBValEvent?.Invoke(this, new ProgressBarArguments { PBValue = i });
+
+
+                                var tmpSec = seconds;
+                                seconds = i / VidInfo.VideoReader.FrameRate;
+                                long hProc = seconds / 3600;
+                                seconds -= 3600 * hProc;
+                                long mProc = seconds / 60;
+                                seconds -= 60 * mProc;
+
+                                if (tmpSec != seconds)
+                                    CurrentTimeProceededEvent?.Invoke(this, new ProgressBarArguments { TimeProceeded = hProc.ToString() + ":" + mProc.ToString() + ":" + seconds.ToString() });
+                            }
+                        }
+                    }
+                    else
                     {
-                        Bitmap newFr = Reader.ReadVideoFrame();                        
-                        if (newFr != null)
-                        {                            
-                            VidInfo.ImageSourceListIndex++;
-                            Bitmap newFrame = new Bitmap(newFr, Size);
-                            writer.WriteVideoFrame(newFrame);
-                            newFrame.Dispose();
-                            newFr.Dispose();
-                            if (!PBIndeterminate && i % 100 == 0)
-                                PBValEvent?.Invoke(this, new ProgressBarArguments { PBValue = i });
+                        writer.Open(OutputDir + "\\" + Directories.OutputPath + FileTime + ".mp4", VidInfo.VideoReader.Width, VidInfo.VideoReader.Height, VidInfo.VideoReader.FrameRate, VideoCodec.MPEG4, 8000000);
+                        long seconds = 0;
+                        var Size = new System.Drawing.Size(writer.Width, writer.Height);
+
+                        for (int i = 0; i <= VidInfo.ImageSourceListIndex; i++)
+                        {
+                            Bitmap newFr = Reader.ReadVideoFrame();                            
+                            if (newFr != null)
+                            {
+                                Bitmap scaledBitmap = cropImage(newFr, VidInfo.secondCenter, writer.Width, writer.Height);
+                                VidInfo.ImageSourceListIndex++;
+                                //Bitmap newFrame = new Bitmap(newFr, Size);
+                                writer.WriteVideoFrame(scaledBitmap);
+                                scaledBitmap.Dispose();
+                                newFr.Dispose();
+                                if (!PBIndeterminate && i % 100 == 0)
+                                    PBValEvent?.Invoke(this, new ProgressBarArguments { PBValue = i });
 
 
-                            var tmpSec = seconds;
-                            seconds = i / VidInfo.VideoReader.FrameRate;
-                            long hProc = seconds / 3600;
-                            seconds -= 3600 * hProc;
-                            long mProc = seconds / 60;
-                            seconds -= 60 * mProc;
+                                var tmpSec = seconds;
+                                seconds = i / VidInfo.VideoReader.FrameRate;
+                                long hProc = seconds / 3600;
+                                seconds -= 3600 * hProc;
+                                long mProc = seconds / 60;
+                                seconds -= 60 * mProc;
 
-                            if (tmpSec != seconds)
-                                CurrentTimeProceededEvent?.Invoke(this, new ProgressBarArguments { TimeProceeded = hProc.ToString() + ":" + mProc.ToString() + ":" + seconds.ToString() });
+                                if (tmpSec != seconds)
+                                    CurrentTimeProceededEvent?.Invoke(this, new ProgressBarArguments { TimeProceeded = hProc.ToString() + ":" + mProc.ToString() + ":" + seconds.ToString() });
+                            }
                         }
                     }
 
@@ -102,6 +137,14 @@ namespace VideoScaling.Working
                     MessageBox.Show(ex.Message);
                 }
             }
+        }
+
+        private Bitmap cropImage(Bitmap b, System.Windows.Point p, int width, int height)
+        {
+            Bitmap nb = new Bitmap(width, height);
+            Graphics g = Graphics.FromImage(nb);
+            g.DrawImage(b, (int)p.X, (int)p.Y, width, height);
+            return nb;
         }
     }
 }

@@ -80,7 +80,19 @@ namespace VideoScaling.Working
                             Bitmap newFr = Reader.ReadVideoFrame();                            
                             if (newFr != null)
                             {
-                                Bitmap scaledBitmap = cropImage(newFr, VidInfo.secondCenter, writer.Width, writer.Height);
+                                int w = (int)(writer.Width * (1 / VidInfo.ScaleWidth));
+                                int h = (int)(writer.Height * (1 / VidInfo.ScaleHeight));
+                                Bitmap scaledBitmap;
+
+                                if (VidInfo.SecondSelection.StartPoint.X + w > writer.Width)
+                                {
+                                    if (VidInfo.SecondSelection.StartPoint.Y + h > writer.Height)
+                                    {
+                                        scaledBitmap = cropImage(newFr, )
+                                    }
+
+                                }                                                
+                                scaledBitmap = cropImage(newFr, VidInfo.SecondSelection.StartPoint, w, h);
                                 VidInfo.ImageSourceListIndex++;
                                 //Bitmap newFrame = new Bitmap(newFr, Size);
                                 writer.WriteVideoFrame(scaledBitmap);

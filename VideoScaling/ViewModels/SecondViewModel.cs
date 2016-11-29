@@ -89,8 +89,9 @@ namespace VideoScaling.ViewModels
                 {
                     Model.Vid.ScaleHeight = BaseSelection.Rect.Height / Model.SelectionRectangle.Rect.Height;
                     Model.Vid.ScaleWidth = BaseSelection.Rect.Width / Model.SelectionRectangle.Rect.Width;
-                    Model.Vid.baseCenter = BaseSelection.GetCenter();
-                    Model.Vid.secondCenter = Model.SelectionRectangle.GetCenter();                    
+                    Model.Vid.BaseCenter = BaseSelection.GetCenter();
+                    Model.Vid.SecondCenter = Model.SelectionRectangle.GetCenter();
+                    Model.Vid.SecondSelection = Model.SelectionRectangle;                  
                     ShowWaitingPageEvent?.Invoke(this, new MyArguments { VidInfo = Model.Vid, MainPage = this.MainPage });
                 }
                 catch (Exception ex)

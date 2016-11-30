@@ -185,7 +185,7 @@ namespace VideoScaling.ViewModels
         }
 
         public event EventHandler<MyArguments> RectangleMouseDownEvent;
-        public void SelectionMouseDown(MouseButtonEventArgs e, Point startPoint)
+        public void SelectionMouseDown(MouseButtonEventArgs e, System.Drawing.Point startPoint)
         {
             try
             {

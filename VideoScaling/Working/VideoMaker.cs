@@ -2,7 +2,10 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using VideoScaling.Events;
 using VideoScaling.Utils;
 
@@ -28,6 +31,7 @@ namespace VideoScaling.Working
         {
             try
             {
+                //CreateSampleVideo();                
                 Reader.Open(VidInfo.FilePath);
                 VidInfo.ImageSourceListIndex = 0;
 
@@ -45,11 +49,11 @@ namespace VideoScaling.Working
 
                         for (int i = 0; i <= VidInfo.ImageSourceListIndex; i++)
                         {
-                            Bitmap newFr = Reader.ReadVideoFrame();
+                            Bitmap newFr = Reader.ReadVideoFrame();                            
                             if (newFr != null)
-                            {
+                            {                                
                                 VidInfo.ImageSourceListIndex++;
-                                Bitmap newFrame = new Bitmap(newFr, Size);
+                                Bitmap newFrame = ResizeImage(newFr, Size.Width, Size.Height);
                                 writer.WriteVideoFrame(newFrame);
                                 newFrame.Dispose();
                                 newFr.Dispose();
@@ -77,31 +81,43 @@ namespace VideoScaling.Working
 
                         for (int i = 0; i <= VidInfo.ImageSourceListIndex; i++)
                         {
-                            Bitmap newFr = Reader.ReadVideoFrame();                            
+                            Bitmap newFr = Reader.ReadVideoFrame();                                                   
                             if (newFr != null)
-                            {
+                            {                                
                                 int w = (int)(writer.Width * (1 / VidInfo.ScaleWidth));
                                 int h = (int)(writer.Height * (1 / VidInfo.ScaleHeight));
                                 Bitmap scaledBitmap;
 
-                                if (VidInfo.SecondSelection.StartPoint.X + w > writer.Width)
+                                if (VidInfo.SecondCenter.X + (w / 2) > writer.Width)
                                 {
-                                    if (VidInfo.SecondSelection.StartPoint.Y + h > writer.Height)
-                                        scaledBitmap = cropImage(newFr, new System.Windows.Point(writer.Width - w, writer.Height - h), w, h);
+                                    if (VidInfo.SecondCenter.Y + (h / 2) > writer.Height)
+                                        scaledBitmap = CropImage(newFr, new Rectangle { Location = new System.Drawing.Point(writer.Width - w, writer.Height - h), Width = w, Height = h });     // bottom right
+                                    else if (VidInfo.SecondCenter.Y - (h / 2) < 0)
+                                        scaledBitmap = CropImage(newFr, new Rectangle { Location = new System.Drawing.Point(writer.Width - w, 0), Width = w, Height = h });     // top right
                                     else
-                                        scaledBitmap = cropImage(newFr, new System.Windows.Point(writer.Width - w, VidInfo.SecondCenter.Y - (h / 2)), w, h);
+                                        scaledBitmap = CropImage(newFr, new Rectangle { Location = new System.Drawing.Point(writer.Width - w, VidInfo.SecondCenter.Y - (h / 2)), Width = w, Height = h });      // right
                                 }
-                                else if (VidInfo.SecondSelection.StartPoint.Y + h > writer.Height)
-                                    scaledBitmap = cropImage(newFr, new System.Windows.Point(VidInfo.SecondCenter.X - (w / 2), writer.Height - h), w, h);
+                                else if (VidInfo.SecondCenter.X - (w / 2) < 0)
+                                {
+                                    if (VidInfo.SecondCenter.Y + (h / 2) > writer.Height)
+                                        scaledBitmap = CropImage(newFr, new Rectangle { Location = new System.Drawing.Point(0, writer.Height - h), Width = w, Height = h });        // bottom left
+                                    else if (VidInfo.SecondCenter.Y - (h / 2) < 0)
+                                        scaledBitmap = CropImage(newFr, new Rectangle { Location = new System.Drawing.Point(0, 0), Width = w, Height = h });        // top left
+                                    else
+                                        scaledBitmap = CropImage(newFr, new Rectangle { Location = new System.Drawing.Point(0, VidInfo.SecondCenter.Y - (h / 2)), Width = w, Height = h });     // left
+                                }
+                                else if (VidInfo.SecondCenter.Y + (h / 2) > writer.Height)
+                                    scaledBitmap = CropImage(newFr, new Rectangle { Location = new System.Drawing.Point(VidInfo.SecondCenter.X - (w / 2), writer.Height - h), Width = w, Height = h });     // bottom
+                                else if (VidInfo.SecondCenter.Y - (h / 2) < 0)
+                                    scaledBitmap = CropImage(newFr, new Rectangle { Location = new System.Drawing.Point(VidInfo.SecondCenter.X - (w / 2), 0), Width = w, Height = h });     // top
                                 else
-                                    scaledBitmap = cropImage(newFr, new System.Windows.Point(VidInfo.SecondCenter.X - (w / 2), VidInfo.SecondCenter.Y - (h / 2)), w, h);
+                                    scaledBitmap = CropImage(newFr, new Rectangle { Location = new System.Drawing.Point(VidInfo.SecondCenter.X - (w / 2), VidInfo.SecondCenter.Y - (h / 2)), Width = w, Height = h });      // center
 
 
 
-                                Bitmap newFrame = new Bitmap(scaledBitmap, Size);
-                                //Bitmap newFrame = new Bitmap(
+                                Bitmap newFrame = ResizeImage(scaledBitmap, Size.Width, Size.Height);                                
                                 VidInfo.ImageSourceListIndex++;                                
-                                writer.WriteVideoFrame(newFrame);
+                                writer.WriteVideoFrame(newFrame);                                
                                 scaledBitmap.Dispose();
                                 newFr.Dispose();
                                 newFrame.Dispose();
@@ -158,12 +174,77 @@ namespace VideoScaling.Working
             }
         }
 
-        private Bitmap cropImage(Bitmap b, System.Windows.Point p, int width, int height)
+        //private Bitmap cropImage(Bitmap b, System.Windows.Point p, int width, int height)
+        //{
+        //    //Bitmap nb = new Bitmap(width, height);
+        //    //Graphics g = Graphics.FromImage(nb);
+        //    //g.DrawImage(b, -(int)p.X, -(int)p.Y, width, height);
+        //    //nb.Save("halo\\SIEMA.bmp");
+        //    //return nb;
+        //    Image image = b;                        
+        //}
+
+
+        private Bitmap CropImage(Image originalImage, Rectangle sourceRectangle, Rectangle? destinationRectangle = null)
         {
-            Bitmap nb = new Bitmap(width, height);
-            Graphics g = Graphics.FromImage(nb);
-            g.DrawImage(b, (int)p.X, (int)p.Y, width, height);
-            return nb;
+            if (destinationRectangle == null)
+            {
+                destinationRectangle = new Rectangle(System.Drawing.Point.Empty, sourceRectangle.Size);
+            }
+
+            var croppedImage = new Bitmap(destinationRectangle.Value.Width,
+                destinationRectangle.Value.Height);
+            using (var graphics = Graphics.FromImage(croppedImage))
+            {
+                graphics.DrawImage(originalImage, destinationRectangle.Value,
+                    sourceRectangle, GraphicsUnit.Pixel);
+            }
+            return croppedImage;
         }
+
+
+        // Temporar method
+        private void CreateSampleVideo()
+        {
+            using (VideoFileWriter writer = new VideoFileWriter())
+            {
+                Bitmap bm = new Bitmap("a.bmp");
+                var size = new System.Drawing.Size(640, 480);
+                Bitmap newFrame = new Bitmap(bm, size);
+                bm.Dispose();
+
+                writer.Open(OutputDir + "\\" + Directories.OutputPath + "SAMPLEVIDEO" + ".mp4", 640, 480, 30, VideoCodec.MPEG4, 8000000);
+                for (int i = 0; i < 200; i++)
+                    writer.WriteVideoFrame(newFrame);
+
+                newFrame.Dispose();
+                writer.Dispose();
+            }
+        }
+
+        private Bitmap ResizeImage(Image image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
+        }        
     }
 }

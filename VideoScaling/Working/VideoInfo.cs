@@ -14,8 +14,8 @@ namespace VideoScaling.Working
         public VideoFileReader VideoReader { get; set; }
         public double ScaleWidth { get; set; }
         public double ScaleHeight { get; set; }
-        public System.Windows.Point BaseCenter { get; set; }
-        public System.Windows.Point SecondCenter { get; set; }
+        public System.Drawing.Point BaseCenter { get; set; }
+        public System.Drawing.Point SecondCenter { get; set; }
         public Models.Selection SecondSelection { get; set; }
     }
 }

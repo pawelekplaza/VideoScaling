@@ -8,7 +8,7 @@ namespace VideoScaling.Events
     {
         public double WindowHeight { get; set; }
         public double WindowWidth { get; set; }
-        public System.Windows.Point StartPoint { get; set; }
+        public System.Drawing.Point StartPoint { get; set; }
         public double RectangleX { get; set; }
         public double RectangleY { get; set; }        
         public Models.Selection BaseSelectionRectangle { get; set; }

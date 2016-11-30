@@ -14,20 +14,20 @@ namespace VideoScaling.Models
 
     public class Selection
     {
-        public System.Windows.Point StartPoint { get; set; }
+        public System.Drawing.Point StartPoint { get; set; }
         public System.Windows.Shapes.Rectangle Rect { get; set; }
 
         public Selection()
         {
-            StartPoint = new System.Windows.Point();
+            StartPoint = new System.Drawing.Point();
             Rect = new System.Windows.Shapes.Rectangle();
         }
 
-        public System.Windows.Point GetCenter()
+        public System.Drawing.Point GetCenter()
         {
-            System.Windows.Point result = new System.Windows.Point();
-            result.X = StartPoint.X + (Rect.ActualWidth / 2);
-            result.Y = StartPoint.Y + (Rect.ActualHeight / 2);
+            System.Drawing.Point result = new System.Drawing.Point();
+            result.X = StartPoint.X + ((int)Rect.ActualWidth / 2);
+            result.Y = StartPoint.Y + ((int)Rect.ActualHeight / 2);
 
             return result;
         }

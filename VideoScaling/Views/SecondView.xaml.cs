@@ -86,7 +86,8 @@ namespace VideoScaling.Views
 
         private void SelectionRectangle_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            context.SelectionMouseDown(e, e.GetPosition(Frame));
+            System.Windows.Point P = e.GetPosition(Frame);
+            context.SelectionMouseDown(e, new System.Drawing.Point((int)P.X, (int)P.Y));
         }
         private void RectangleCanvasSetStartPoint(object sender, MyArguments e)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,14 +37,11 @@ namespace VideoScaling.Views
             context.RectangleMouseDownEvent += RectangleCanvasSetStartPoint;
             context.RectangleMouseMoveEvent += RectangleCanvasMouseMove;
             context.ShowSecondPageEvent += ShowSecondPage;
-            context.DeleteRectangleSelectionEvent += DeleteSelection;                    
+            context.DeleteRectangleSelectionEvent += DeleteSelection;  
         }
 
         public void UtilizeState(object state)
         {
-            //var tmp = state as Keeper;
-            //context.SecondContext = tmp.KeepSecondContext;
-            //context.SecondPage = tmp.KeepSecondPage;
             var tmp = state as SecondView;
             context.SecondPage = tmp;
 
@@ -68,7 +66,7 @@ namespace VideoScaling.Views
                 x.Width = 1024;
 
             Height = double.NaN;
-            Width = double.NaN;                        
+            Width = double.NaN;            
         }
 
         private void SelectionRectangle_MouseDown(object sender, MouseButtonEventArgs e)
@@ -105,8 +103,7 @@ namespace VideoScaling.Views
             {                
                 Switcher.Switch(e.SecondPage, this);
             }
-            else
-                //Switcher.Switch(new SecondView(), new Keeper { KeepMainContext = sender as MainViewModel, KeepMainPage = this });
+            else                
                 Switcher.Switch(new SecondView(), this);
         }
         public Models.Selection GetSelection()

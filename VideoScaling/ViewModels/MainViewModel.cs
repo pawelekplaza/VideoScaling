@@ -31,7 +31,11 @@ namespace VideoScaling.ViewModels
 
             BrowseFile = new RelayCommand(() =>
             {
-                try { BrowseFileTryContent(); }
+                try
+                {
+                    BrowseFileTryContent();
+                    ResizeImageSource();
+                }
                 catch (Exception ex)
                 {
                     Logger.Log(string.Concat(ex.Message, "\r\n", ex.StackTrace));

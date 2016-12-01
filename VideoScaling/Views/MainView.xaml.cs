@@ -62,10 +62,10 @@ namespace VideoScaling.Views
             if (x.Width < 550)
                 x.Width = 550;
 
-            if (x.Height > 700)
-                x.Height = 700;
-            if (x.Width > 1300)
-                x.Width = 1300;
+            if (x.Height > 600)
+                x.Height = 600;
+            if (x.Width > 1024)
+                x.Width = 1024;
 
             Height = double.NaN;
             Width = double.NaN;                        

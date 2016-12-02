@@ -15,11 +15,13 @@ namespace VideoScaling.ViewModels
     public class MainViewModel : ViewModelBase
     {
         protected MainModel Model;
-
-        public event EventHandler<MyArguments> ChangeWindowSizeEvent;        
+              
         public event EventHandler<MyArguments> DeleteRectangleSelectionEvent;
         public event EventHandler<MyArguments> EnableProceedWindowEvent;        
         public event EventHandler<MyArguments> ShowSecondPageEvent;
+        public event ResizeImageDelegate ChangeWindowSizeEvent;
+
+        public delegate System.Drawing.Size ResizeImageDelegate(MyArguments e);
 
         public MainViewModel()
         {
@@ -33,8 +35,7 @@ namespace VideoScaling.ViewModels
             {
                 try
                 {
-                    BrowseFileTryContent();
-                    ResizeImageSource();
+                    BrowseFileTryContent();                    
                 }
                 catch (Exception ex)
                 {
@@ -168,6 +169,7 @@ namespace VideoScaling.ViewModels
                 {
                     firstFrame.Save(framePath);
                     var result = new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, framePath)));
+                    result = ConvertImages.Bitmap2BitmapImage(ConvertImages.ResizeImage(ConvertImages.BitmapImage2Bitmap(result), Model.ImageSize.Value));
                     Model.ImageSourceList.Add(new SingleFrame { bitmap = firstFrame, bitmapImage = result });
                     FrameIndex++;
                     RaisePropertyChanged("CurrentFrameTextBlock");
@@ -258,11 +260,12 @@ namespace VideoScaling.ViewModels
                 var firstFrame = Model.VideoReader.ReadVideoFrame();
                 firstFrame.Save(framePath);
 
-                DeleteRectangleSelectionEvent?.Invoke(null, null);
-                ChangeWindowSizeEvent?.Invoke(this, new MyArguments { WindowHeight = firstFrame.Height, WindowWidth = firstFrame.Width });
-                ImageSource = new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, framePath)));
+                DeleteRectangleSelectionEvent?.Invoke(null, null);                
+                Model.ImageSize = ChangeWindowSizeEvent?.Invoke(new MyArguments { WindowHeight = firstFrame.Height, WindowWidth = firstFrame.Width });
+                ImageSource = new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, framePath)));                
+                NextFrameIsEnabled = true;                
+                ImageSource = ConvertImages.Bitmap2BitmapImage(ConvertImages.ResizeImage(ConvertImages.BitmapImage2Bitmap(ImageSource), Model.ImageSize.Value));
                 Model.ImageSourceList.Add(new SingleFrame { bitmap = firstFrame, bitmapImage = ImageSource });
-                NextFrameIsEnabled = true;
             }
         }
         protected void BrowseFileCatchContent(Exception ex)
@@ -273,8 +276,7 @@ namespace VideoScaling.ViewModels
             NextFrameIsEnabled = false;
             NextVideoIsEnabled = false;
             DeleteRectangleSelectionEvent?.Invoke(null, null);            
-        }
-
+        }                                
     }
 
 }

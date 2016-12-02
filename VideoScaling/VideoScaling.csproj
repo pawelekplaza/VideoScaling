@@ -108,6 +108,7 @@
     <Compile Include="Models\SecondModel.cs" />
     <Compile Include="Models\WaitingModel.cs" />
     <Compile Include="Switcher.cs" />
+    <Compile Include="Utils\ConvertImages.cs" />
     <Compile Include="Utils\Directories.cs" />
     <Compile Include="Utils\Logger.cs" />
     <Compile Include="Utils\Time.cs" />

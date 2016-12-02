@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,7 +48,7 @@ namespace VideoScaling.Views
             this.Visibility = Visibility.Visible;
         }
 
-        private void ChangeWindowSize(object sender, MyArguments e)
+        private System.Drawing.Size ChangeWindowSize(MyArguments e)
         {
             var x = Parent as Window;
             x.Height = e.WindowHeight + FirstRow.Height.Value + 63;
@@ -66,7 +65,9 @@ namespace VideoScaling.Views
                 x.Width = 1024;
 
             Height = double.NaN;
-            Width = double.NaN;            
+            Width = double.NaN;
+
+            return new System.Drawing.Size((int)RectangleCanvas.ActualWidth, (int)RectangleCanvas.ActualHeight);      
         }
 
         private void SelectionRectangle_MouseDown(object sender, MouseButtonEventArgs e)

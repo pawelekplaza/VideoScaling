@@ -43,10 +43,6 @@ namespace VideoScaling.Views
 
         public void UtilizeState(object state)
         {
-            //var tmp = state as Keeper;
-            //context.MainContext = tmp.KeepMainContext;
-            //context.MainPage = tmp.KeepMainPage;
-
             var tmp = state as MainView;
             context.MainPage = tmp;
             context.BaseSelection = tmp.GetSelection();
@@ -55,7 +51,7 @@ namespace VideoScaling.Views
             this.Visibility = Visibility.Visible;
         }
 
-        private void ChangeWindowSize(object sender, MyArguments e)
+        private System.Drawing.Size ChangeWindowSize(MyArguments e)
         {
             var x = Parent as Window;
             x.Height = e.WindowHeight + FirstRow.Height.Value + 63;
@@ -66,17 +62,18 @@ namespace VideoScaling.Views
             if (x.Width < 550)
                 x.Width = 550;
 
-            if (x.Height > 700)
-                x.Height = 700;
-            if (x.Width > 1300)
-                x.Width = 1300;
+            if (x.Height > 600)
+                x.Height = 600;
+            if (x.Width > 1024)
+                x.Width = 1024;
 
             Height = double.NaN;
             Width = double.NaN;
+
+            return new System.Drawing.Size((int)RectangleCanvas.ActualWidth, (int)RectangleCanvas.ActualHeight);
         }
         private void ShowMainPage(object sender, MyArguments e)
-        {
-            //Switcher.Switch(e.MainPage, new Keeper { KeepSecondContext = sender as SecondViewModel, KeepSecondPage = this });            
+        {                   
             Switcher.Switch(e.MainPage, this);
         }
         private void ShowWaitingPage(object sender, MyArguments e)

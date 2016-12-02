@@ -39,11 +39,10 @@ namespace VideoScaling.Models
         public BitmapImage ImageSource { get; set; }
         public List<SingleFrame> ImageSourceList { get; set; }
         public int ImageSourceListIndex { get; set; }
-        public VideoFileReader VideoReader { get; set; }
-        //public System.Windows.Point SelectionStartPoint { get; set; }
-        //public System.Windows.Shapes.Rectangle SelectionRectangle { get; set; }        
+        public VideoFileReader VideoReader { get; set; }      
         public Selection SelectionRectangle { get; set; }
-        public SecondView SecondPage { get; set; }        
+        public SecondView SecondPage { get; set; }      
+        public Size? ImageSize { get; set; }  
 
         public MainModel()
         {

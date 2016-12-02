@@ -44,11 +44,6 @@ namespace VideoScaling.ViewModels
             try
             {
                 ProgressBarMaximum = Model.Vid.VideoReader.FrameCount;
-                //while (Model.Vid.ImageSourceListIndex < Model.Vid.VideoReader.FrameCount)
-                //{
-                //    ProgressBarValue = Model.Vid.ImageSourceListIndex;
-                //    ReadNextFrame();
-                //}
             }
             catch (Exception ex)
             {

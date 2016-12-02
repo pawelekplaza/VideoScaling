@@ -16,11 +16,13 @@ namespace VideoScaling.ViewModels
     {
         protected SecondModel Model;
 
-        public event EventHandler<MyArguments> ChangeWindowSizeEvent;
+        public event ResizeImageDelegate ChangeWindowSizeEvent;
         public event EventHandler<MyArguments> DeleteRectangleSelectionEvent;
         public event EventHandler<MyArguments> EnableProceedWindowEvent;        
         public event EventHandler<MyArguments> ShowMainPageEvent;
         public event EventHandler<MyArguments> ShowWaitingPageEvent;
+
+        public delegate System.Drawing.Size ResizeImageDelegate(MyArguments e);
 
         public SecondViewModel()
         {
@@ -180,6 +182,7 @@ namespace VideoScaling.ViewModels
                 {
                     firstFrame.Save(framePath);
                     var result = new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, framePath)));
+                    result = ConvertImages.Bitmap2BitmapImage(ConvertImages.ResizeImage(ConvertImages.BitmapImage2Bitmap(result), Model.ImageSize.Value));                    
                     Model.Vid.ImageSourceList.Add(new SingleFrame { bitmap = firstFrame, bitmapImage = result });
                     FrameIndex++;
                     RaisePropertyChanged("CurrentFrameTextBlock");
@@ -271,10 +274,11 @@ namespace VideoScaling.ViewModels
                 firstFrame.Save(framePath);
 
                 DeleteRectangleSelectionEvent?.Invoke(null, null);
-                ChangeWindowSizeEvent?.Invoke(this, new MyArguments { WindowHeight = firstFrame.Height, WindowWidth = firstFrame.Width });
+                Model.ImageSize = ChangeWindowSizeEvent?.Invoke(new MyArguments { WindowHeight = firstFrame.Height, WindowWidth = firstFrame.Width });
                 ImageSource = new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, framePath)));
-                Model.Vid.ImageSourceList.Add(new SingleFrame { bitmap = firstFrame, bitmapImage = ImageSource });
                 NextFrameIsEnabled = true;
+                ImageSource = ConvertImages.Bitmap2BitmapImage(ConvertImages.ResizeImage(ConvertImages.BitmapImage2Bitmap(ImageSource), Model.ImageSize.Value));
+                Model.Vid.ImageSourceList.Add(new SingleFrame { bitmap = firstFrame, bitmapImage = ImageSource });                
             }
         }
         protected void BrowseFileCatchContent(Exception ex)
